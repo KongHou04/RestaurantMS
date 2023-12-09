@@ -1,0 +1,131 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+
+    <Style x:Key="TextStyle1" TargetType="TextBlock">
+        <Setter Property="Panel.ZIndex" Value="1"/>
+        <Setter Property="Margin" Value="27 0 0 0"/>
+        <Setter Property="Foreground" Value="#757778"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+    </Style>
+
+    <Style x:Key="TextStyle2" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource color11}"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+    </Style>
+
+    <Style x:Key="TextStyle3" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontSize" Value="15"/>
+    </Style>
+
+    <Style x:Key="MenuTitleTxtStyle1" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource= {RelativeSource AncestorType=RadioButton}}"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="HintTxtStyle1" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="Grid.Column" Value="1"/>
+        <Setter Property="Panel.ZIndex" Value="1"/>
+        <Setter Property="Margin" Value="7 1 0 0"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="#abc0af"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="IBeam"/>
+    </Style>
+
+    <Style x:Key="TitleTxtStyle1" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="25"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{StaticResource color2}"/>
+        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="10 0 0 0"/>
+    </Style>
+
+    <Style x:Key="ControlViewTxtStyle1" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Foreground" Value="{StaticResource color6}"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="HeaderTxtStyle1" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource color11}"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Margin" Value="10 0 0 0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+    </Style>
+
+    <Style x:Key="CenterTxtStyle1" TargetType="DataGridCell">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="OrderStatusTextBlockStyle1" TargetType="TextBlock">
+        <Setter Property="Width" Value="45"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding OrderStatus}" Value="True">
+                <Setter Property="Tag" Value="In use"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding OrderStatus}" Value="False">
+                <Setter Property="Tag" Value="Free"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StatusTextBlockStyle1" TargetType="TextBlock">
+        <Setter Property="Width" Value="60"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status}" Value="True">
+                <Setter Property="Tag" Value="Active"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status}" Value="False">
+                <Setter Property="Tag" Value="In Active"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="backTxtStyle1" TargetType="TextBlock">
+        <Setter Property="Text" Value="BACK"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="5 0 0 0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource color8}"/>
+    </Style>
+
+    <Style x:Key="infoTxtStyle1" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="Margin" Value="10"/>
+    </Style>
+
+    <Style x:Key="actionBtnTxtStyle1" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontSize" Value="9"/>
+    </Style>
+
+
+
+
+</ResourceDictionary>

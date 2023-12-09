@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Background colors-->
+    <Color x:Key="primaryBgColor1">#ffffff</Color>
+    <Color x:Key="primaryBgColor2">#d0d6d2</Color>
+    <Color x:Key="primaryBgColor3">#f5f5fa</Color>
+    <Color x:Key="secondaryBgColor1">#399650</Color>
+    <Color x:Key="secondaryBgColor2">#348548</Color>
+    <Color x:Key="secondaryBgColor3">#148032</Color>
+
+
+    <!--Main application colors-->
+    <SolidColorBrush x:Key="color0">#ffffff</SolidColorBrush>
+    <SolidColorBrush x:Key="color1">#1ec94c</SolidColorBrush>
+    <SolidColorBrush x:Key="color2">#056e22</SolidColorBrush>
+    <SolidColorBrush x:Key="color3">#b56d33</SolidColorBrush>
+    <SolidColorBrush x:Key="color4">#c79d73</SolidColorBrush>
+    <SolidColorBrush x:Key="color5">#d0d6d2</SolidColorBrush>
+    <SolidColorBrush x:Key="color6">#f5f5fa</SolidColorBrush>
+    <SolidColorBrush x:Key="color7">#fafcfc</SolidColorBrush>
+    <SolidColorBrush x:Key="color8">#148032</SolidColorBrush>
+    <SolidColorBrush x:Key="color9">#000000</SolidColorBrush>
+    <SolidColorBrush x:Key="color10">#292929</SolidColorBrush>
+    <SolidColorBrush x:Key="color11">#4a4848</SolidColorBrush>
+    <SolidColorBrush x:Key="color12">#1a913b</SolidColorBrush>
+    <SolidColorBrush x:Key="color13">#21a345</SolidColorBrush>
+    <SolidColorBrush x:Key="color14">#dba36b</SolidColorBrush>
+    <SolidColorBrush x:Key="color15">#c6ccc7</SolidColorBrush>
+    <SolidColorBrush x:Key="color16">#ebf0ec</SolidColorBrush>
+
+
+    <!--Boolean colors-->
+    <SolidColorBrush x:Key="colorTrue1">Red</SolidColorBrush>
+    <SolidColorBrush x:Key="colorTrue2">#f76d02</SolidColorBrush>
+    <SolidColorBrush x:Key="colorFalse1">#5bd90d</SolidColorBrush>
+    <SolidColorBrush x:Key="colorFalse2">#a802db</SolidColorBrush>
+
+    <!--Orther colors-->
+    <Color x:Key="bgColor1">#7369db</Color>
+    <Color x:Key="bgColor2">#4e40de</Color>
+    <Color x:Key="bgColor3">#2614e0</Color>
+    <Color x:Key="bgColor4">#1a913b</Color>
+    <Color x:Key="bgColor5">#21a345</Color>
+
+</ResourceDictionary>

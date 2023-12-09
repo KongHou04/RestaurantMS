@@ -1,0 +1,202 @@
+﻿<UserControl x:Class="GUI.Views.TableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:local="clr-namespace:GUI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <Grid Grid.Row="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Controls Region-->
+        <Border Grid.Row="0"
+                Padding="10 0 20 0">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="6*" MinWidth="500"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Action Buttons-->
+                <StackPanel Orientation="Horizontal">
+
+                    <!--Reset Button-->
+                    <Button Style="{StaticResource ViewControlBtnStyle1}"
+                            Margin="0 0 10 0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="resetBtnTxt"
+                                       Text="REFRESH"
+                                       Style="{StaticResource ControlViewTxtStyle1}" FontFamily="Dosis"/>
+                        </StackPanel>
+                    </Button>
+
+
+
+                </StackPanel>
+                
+                <!--Filter Selection-->
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="6*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    
+                    <StackPanel Orientation="Horizontal" Grid.Column="1"
+                                HorizontalAlignment="Right">
+                        <TextBlock Text="Area: "
+                                   Style="{StaticResource TextStyle2}"
+                                   VerticalAlignment="Center"
+                                   Margin="10 0"/>
+                        <ComboBox Style="{StaticResource comboBoxInfoStyle1}"
+                                  HorizontalAlignment="Right"
+                                  ItemsSource="{Binding DataViewModel.AreaFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="Name"
+                                  SelectedItem="{Binding DataViewModel.SelectedAreaFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  />
+                    </StackPanel>
+
+                </Grid>
+
+
+            </Grid>
+
+        </Border>
+
+        <!--Data Region-->
+        <Grid Grid.Row="1">
+
+            <DataGrid x:Name="dataGrid"
+                      Grid.Row="0"
+                      ItemsSource="{Binding DataViewModel.Tables}"
+                      Style="{DynamicResource DataGridStyle1}"
+                      CellStyle="{DynamicResource DataGridCellStyle2}"
+                      RowStyle="{DynamicResource DataGridRowStyle1}"
+                      ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}"
+                      BorderThickness="0"
+                      Margin="10 0"
+                      FontFamily="Roboto"
+                      ContextMenuOpening="DataGrid_ContextMenuOpening">
+
+                <DataGrid.Resources>
+                    <Style TargetType="ScrollBar" BasedOn="{StaticResource ScrollBarStyle1}"/>
+                </DataGrid.Resources>
+
+                <!--<DataGrid.ContextMenu>
+                    <ContextMenu>
+                        --><!-- Các MenuItem trong ContextMenu --><!--
+                        <MenuItem Header="Delete" 
+                                  Command="{Binding ShowDeleteTableViewCommand}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>-->
+
+                <DataGrid.Columns>
+
+                    <!--Id Column-->
+                    <DataGridTextColumn Header="#" 
+                                        CanUserResize="False"
+                                        Width="Auto"
+                                        MinWidth="50"
+                                        IsReadOnly="True" 
+                                        Binding="{Binding ID}">
+                        <DataGridTextColumn.CellStyle>
+                            <StaticResource ResourceKey="DataGridCellStyle1"/>
+                        </DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn.HeaderStyle>
+                            <StaticResource ResourceKey="DataGridColumnHeaderStyle1"/>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+
+                    <!--Name Column-->
+                    <DataGridTextColumn Header="Name" 
+                                        IsReadOnly="True" 
+                                        Width="*"
+                                        Binding="{Binding Name}">
+                    </DataGridTextColumn>
+
+                    <!--Area Name Column-->
+                    <DataGridTextColumn Header="Area Name" 
+                                        IsReadOnly="True" 
+                                        Width="*"
+                                        Binding="{Binding AreaName}">
+                    </DataGridTextColumn>
+
+                    <!--Order Status Column-->
+                    <DataGridTemplateColumn Header="OrderStatus" 
+                                            IsReadOnly="True" 
+                                            Width="*"
+                                            SortMemberPath="OrderStatus">
+                        
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                
+                                <StackPanel Orientation="Horizontal" 
+                                            VerticalAlignment="Center"
+                                            Margin="12 0 0 0">
+                                    
+                                    <Border Background="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                            Style="{StaticResource OrderStatusShapeBorderStyle1}">
+                                    </Border>
+                                    
+                                    <TextBlock Text="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                               Style="{StaticResource OrderStatusTextBlockStyle1}">
+                                    </TextBlock>
+                                    
+                                </StackPanel>
+                                
+                            </DataTemplate>
+                            
+                        </DataGridTemplateColumn.CellTemplate>
+                        
+                    </DataGridTemplateColumn>
+
+                    <!--Status Column-->
+                    <DataGridTemplateColumn Header="Status" 
+                                            IsReadOnly="True" 
+                                            Width="*"
+                                            SortMemberPath="Status">
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+
+                                <StackPanel Orientation="Horizontal" 
+                                            VerticalAlignment="Center"
+                                            Margin="16 0 0 0">
+
+                                    <Border Background="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                            Style="{StaticResource StatusShapeBorderStyle1}">
+                                    </Border>
+
+                                    <TextBlock Text="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                               Style="{StaticResource StatusTextBlockStyle1}">
+                                    </TextBlock>
+
+                                </StackPanel>
+
+                            </DataTemplate>
+
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
+
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+
+
+
+
+        </Grid>
+
+    </Grid>
+</UserControl>
