@@ -22,6 +22,8 @@ namespace BLL.Services
         {
             if (obj.Name == null)
                 return "Name cannot be empty";
+            if (obj.Name.Length == 0)
+                return "Name cannot be empty";
             if (_categoryRES.CheckByName(obj.Name.Trim()) != null)
                 return "Category name already exist";
             var entity = new Category()
@@ -93,6 +95,12 @@ namespace BLL.Services
             var updateObj = _categoryRES.GetByID(obj.ID);
             if (updateObj == null)
                 return "Category does not exist!";
+            if (obj.Name == null)
+                return "Name cannot be empty";
+            if (obj.Name.Length == 0)
+                return "Name cannot be empty";
+            if (updateObj.Name != obj.Name && _categoryRES.CheckByName(obj.Name) != null)
+                return "Category name already exist";
             updateObj.Name = obj.Name;
             updateObj.Status = obj.Status;
             updateObj.Description = obj.Description;

@@ -57,13 +57,7 @@ namespace GUI.Views
 
             // Checks if user is right click on a row or not. Then hide or show menu context
             DataGridRow? selectedRow = Finder.FindAncestor<DataGridRow>(dpObj);
-            if (selectedRow != null)
-            {
-                dataGrid.ContextMenu.IsOpen = false;
-                dataGrid.ContextMenu.Visibility = Visibility.Visible;
-            }
-            else
-                dataGrid.ContextMenu.Visibility = Visibility.Collapsed;
+            
         }
 
         // Handle Update Action

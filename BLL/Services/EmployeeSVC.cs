@@ -13,14 +13,16 @@ namespace BLL.Services
 {
     public class EmployeeSVC : IEmployeeSVC
     {
+        private BitMapConverter _bitMapConverter;
         private IAccountRES _accountRES;
         private IEmployeeRES _employeeRES;
         private IRoleRES _roleRES;
-        public EmployeeSVC(IAccountRES accountRES, IEmployeeRES employeeRES, IRoleRES roleRES)
+        public EmployeeSVC(IAccountRES accountRES, IEmployeeRES employeeRES, IRoleRES roleRES, BitMapConverter bitMapConverter)
         {
             _accountRES = accountRES;
             _employeeRES = employeeRES;
             _roleRES = roleRES;
+            _bitMapConverter = bitMapConverter;
         }
 
 
@@ -63,6 +65,7 @@ namespace BLL.Services
                        on e.RoleID equals r.RoleID
                        select new EmployeeDTO()
                        {
+                           ID = e.EmployeeID,
                            FullName = e.FullName,
                            BirthDate = e.BirthDate,
                            Email = e.Email,
@@ -72,7 +75,8 @@ namespace BLL.Services
                            RoleName = r.Name,
                            RoleID = r.RoleID,
                            //UserName = (_accountRES.GetByEmpID(e.EmployeeID))?.UserName,
-                           UserName = e.Account?.UserName
+                           UserName = e.Account?.UserName,
+                           AvatarBitMap = _bitMapConverter.GetBitMap(e.Avatar)
                        };
             return list.ToList();
         }

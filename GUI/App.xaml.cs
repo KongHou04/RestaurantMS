@@ -21,9 +21,10 @@ namespace RM_Project1
             base.OnStartup(e);
 
             //new AutoWindow().Show();
+            //new WindowDemo().Show();
 
-            LoginWindow loginWindow = new LoginWindow();
-            loginWindow.Show();
+            //LoginWindow loginWindow = new LoginWindow();
+            //loginWindow.Show();
 
 
         }

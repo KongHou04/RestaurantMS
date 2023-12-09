@@ -66,7 +66,7 @@ namespace DAL.Repositories
 
         public List<Product> GetByName(string name)
         {
-            return _context.Products.Where(o => o.Name != null && o.Name.ToLower().Contains(name.ToLower()) == true).ToList();
+            return _context.Products.Where(o => o.Category != null && o.Name != null && o.Name.ToLower().Contains(name.ToLower()) == true).ToList();
         }
 
         public bool Update(Product obj)

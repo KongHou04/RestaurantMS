@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
-namespace DTO
+namespace DTODemo
 {
     public class EmployeeDTO
     {
@@ -15,6 +13,7 @@ namespace DTO
         public string? Email { get; set; }
         public string? Phone { get; set; }
         public string? Avatar { get; set; }
+        public dynamic? AvatarBitMap { get; set; }
         public bool Status { get; set; }
         public string? RoleName { get; set; }
         public int? RoleID { get; set; }

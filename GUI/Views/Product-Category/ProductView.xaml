@@ -15,7 +15,7 @@
 
         <!--Controls Region-->
         <Border Grid.Row="0"
-                Padding="10 0 20 0">
+                Padding="10 0">
 
             <Grid>
 
@@ -39,7 +39,6 @@
 
                     <!--Add Button-->
                     <Button Style="{StaticResource ViewControlBtnStyle1}"
-                            <!--Command="{Binding ShowAddProductViewCommand}"-->
                             Margin="10 0 10 0">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="addBtnTxt"
@@ -111,7 +110,8 @@
         </Border>
 
         <!--Data Region-->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              Margin="0 0 10 0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding DataViewModel.Products}"
                               Margin="10"
@@ -129,45 +129,11 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
 
-                                            <Button Width="140" Height="140" Margin="0 10 22 10" VerticalAlignment="Bottom"
-                                                    
+                                            <Button Width="140" Height="140" Margin="0 10 15 10" VerticalAlignment="Bottom"
                                                     CommandParameter="{Binding}">
-                                                <!--<Button.Command>
-                                                    <Binding Path="DataContext.ShowUpdateProductViewCommand" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
-                                                </Button.Command>-->
-                                                <!--<Button.Template>
-                                                    <ControlTemplate TargetType="Button">
-                                                        <Border>
-                                                            <Border.Background>
-                                                                <SolidColorBrush Color="#00ff0a" Opacity="0.35"/>
-                                                            </Border.Background>
-                                                            <Grid>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="6*"/>
-                                                                    <RowDefinition Height="4*"/>
-                                                                </Grid.RowDefinitions>
-
-                                                                <TextBlock Text="{Binding Name}"
-                                                                           FontFamily="Roboto"
-                                                                           FontSize="13"
-                                                                           MaxHeight="50"
-                                                                           FontWeight="SemiBold"
-                                                                           TextWrapping="Wrap"
-                                                                           TextTrimming="CharacterEllipsis"
-                                                                           TextAlignment="Center"
-                                                                           VerticalAlignment="Bottom"
-                                                                           HorizontalAlignment="Center"
-                                                                           Padding="5 0"/>
-                                                                <TextBlock Text="{Binding UnitPrice, StringFormat='{}{0:#,0}'}"
-                                                                           FontFamily="Montserrat"
-                                                                           FontSize="12"
-                                                                           FontWeight="Normal"
-                                                                           HorizontalAlignment="Center"
-                                                                           Grid.Row="1"/>
-                                                            </Grid>
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Button.Template>-->
+                                                <Button.Command>
+                                                    <Binding Path="DataContext.ShowCategoryInfoFormViewCommand" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
+                                                </Button.Command>
                                                 <Grid>
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="6*"/>
@@ -218,7 +184,23 @@
                                                                     </Setter.Value>
                                                                 </Setter>
                                                             </Trigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="True">
+                                                                <Setter Property="Background">
+                                                                    <Setter.Value>
+                                                                        <SolidColorBrush Color="#00ff0a" Opacity="0.35"/>
+                                                                        <!-- Màu xanh khi Status = true -->
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="False">
+                                                                <Setter Property="Background">
+                                                                    <Setter.Value>
+                                                                        <SolidColorBrush Color="#ff0000" Opacity="0.35"/>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
                                                         </Style.Triggers>
+                                                        
                                                     </Style>
                                                 </Button.Style>
 

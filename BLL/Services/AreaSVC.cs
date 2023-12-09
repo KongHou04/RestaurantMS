@@ -49,9 +49,8 @@ namespace BLL.Services
             foreach (var item in list)
             {
                 var tables = _areaRES.CountTableByID(item.AreaID);
-                entityList.Add(new AreaDTO()
+                entityList.Add(new AreaDTO(item.AreaID)
                 {
-                    ID = item.AreaID,
                     Name = item.Name?.Trim(),
                     Status = item.Status,
                     Description = item.Description,
@@ -68,9 +67,8 @@ namespace BLL.Services
             foreach (var item in list)
             {
                 var tables = _areaRES.CountTableByID(item.AreaID);
-                entityList.Add(new AreaDTO()
+                entityList.Add(new AreaDTO(item.AreaID)
                 {
-                    ID = item.AreaID,
                     Name = item.Name?.Trim(),
                     Status = item.Status,
                     Description = item.Description,
@@ -104,7 +102,7 @@ namespace BLL.Services
         public List<TableDTO> GetAllTablesByArea(AreaDTO obj)
         {
             List<TableDTO> list = new List<TableDTO>();
-            var list1 = _tableRES.GetAll().Where(t => t.Status == true && t.AreaID == obj.ID);
+            var list1 = _tableRES.GetAll().Where(t => t.Status == true && t.AreaID == obj.ID && t.Area?.Status == true);
             var r = _areaRES.GetByID(obj.ID);
             list = (from t in list1
                     select new TableDTO()
@@ -127,8 +125,10 @@ namespace BLL.Services
                 return "Area does not exist!";
             if (obj.Name == null)
                 return "Name cannot be empty";
-            if (_areaRES.CheckByName(obj.Name) != null)
-                return "Area Name already exist";
+            if (obj.Name.Length == 0)
+                return "Name cannot be empty";
+            if (obj.Name != entity.Name && _areaRES.CheckByName(obj.Name) != null)
+                return "Area name already exist";
             entity.Name = obj.Name;
             entity.Status = obj.Status;
             entity.Description = obj.Description;

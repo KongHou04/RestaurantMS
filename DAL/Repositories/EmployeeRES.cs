@@ -90,12 +90,12 @@ namespace DAL.Interfaces
 
         public List<Employee> GetByName(string name)
         {
-            return _context.Employees.ToList().Where(o => o.FullName != null && o.FullName.Contains(name)).ToList();
+            return _context.Employees.OrderBy(o => o.EmployeeID).Where(o => o.FullName != null && o.FullName.ToLower().Contains(name.ToLower())).ToList();
         }
 
         public Employee? GetByPhone(string phone)
         {
-            return _context.Employees.ToList().FirstOrDefault(o => o.Email != null && o.Email.ToLower() == phone.ToLower());
+            return _context.Employees.FirstOrDefault(o => o.Email != null && o.Email.ToLower() == phone.ToLower());
         }
 
         public bool Update(Employee obj)

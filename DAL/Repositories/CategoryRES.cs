@@ -62,7 +62,7 @@ namespace DAL.Interfaces
 
         public List<Category> GetByName(string name)
         {
-            return _context.Categories.ToList().Where(c => c.Name != null && c.Name.Contains(name)).ToList();
+            return _context.Categories.OrderBy(o => o.CategoryID).Where(c => c.Name != null && c.Name.ToLower().Contains(name.ToLower())).ToList();
         }
 
         public bool Update(Category obj)

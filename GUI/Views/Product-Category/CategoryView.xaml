@@ -15,7 +15,7 @@
 
         <!--Controls Region-->
         <Border Grid.Row="0"
-                Padding="10 0 20 0">
+                Padding="10 0">
 
             <Grid>
 
@@ -39,6 +39,7 @@
 
                     <!--Add Button-->
                     <Button Style="{StaticResource ViewControlBtnStyle1}"
+                            Command="{Binding ShowCategoryInfoFormViewCommand}"
                             Margin="10 0 10 0">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="addBtnTxt"
@@ -116,9 +117,12 @@
                     <ContextMenu>
                         <!-- Các MenuItem trong ContextMenu -->
                         <MenuItem Header="Edit"
-                                  Command="{Binding ShowUpdateCategoryViewCommand}"/>
-                        <MenuItem Header="Delete" 
-                                  Command="{Binding DeleteCategoryCommand}"/>
+                                  Command="{Binding ShowCategoryInfoFormViewCommand}"
+                                  CommandParameter="{Binding SelectedCategory}"/>
+                        <MenuItem Header="Activate / DeActivate"
+                                  Command="{Binding DataViewModel.UpdateCategoryStatusCommand}"
+                                  CommandParameter="{Binding SelectedCategory}"/>
+                        <MenuItem Header="Delete" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
@@ -148,7 +152,7 @@
                     </DataGridTextColumn>
 
                     <!--Description Column-->
-                    <DataGridTextColumn Header="Name" 
+                    <DataGridTextColumn Header="Description" 
                                         CanUserResize="False" 
                                         IsReadOnly="True" 
                                         Width="*"

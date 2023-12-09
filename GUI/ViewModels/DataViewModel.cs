@@ -21,6 +21,7 @@ namespace GUI.ViewModels
         private IAreaSVC? _areaSVC { get; }
         private ICategorySVC? _categorySVC { get; }
         private IProductSVC? _productSVC { get; }
+        private IEmployeeSVC? _employeeSVC { get; }
         #endregion
 
 
@@ -124,17 +125,39 @@ namespace GUI.ViewModels
             }
         }
 
-        private string _productsSearchTerm;
+        private string _productSearchTerm;
         public string ProductSearchTerm
         {
-            get { return _productsSearchTerm; }
+            get { return _productSearchTerm; }
             set
             {
-                _productsSearchTerm = value;
+                _productSearchTerm = value;
                 OnPropertyChanged(nameof(ProductSearchTerm));
                 UpdateProductsList();
             }
         }
+        #endregion
+
+        #region Employees
+        private ObservableCollection<EmployeeDTO>? _employees;
+        public ObservableCollection<EmployeeDTO>? Employees
+        {
+            get { return _employees; }
+            set { _employees = value; OnPropertyChanged(nameof(Employees)); }
+        }
+
+        private string _employeeSearchTerm;
+        public string EmployeeSearchTerm
+        {
+            get { return _employeeSearchTerm; }
+            set
+            {
+                _employeeSearchTerm = value;
+                OnPropertyChanged(nameof(EmployeeSearchTerm));
+                UpdateEmployeesList();
+            }
+        }
+
         #endregion
 
         #endregion
@@ -142,8 +165,15 @@ namespace GUI.ViewModels
 
         #region Commands
         public ICommand? RefreshDataCommand { get; set; }
+
         public ICommand? AddTablesCommand { get; set; }
         public ICommand? DeleteTablesCommand { get; set; }
+        public ICommand? UpdateAreaCommand { get; set; }
+        public ICommand? UpdateAreaStatusCommand { get; set; }
+
+        public ICommand? AddCategoryCommand { get; set; }
+        public ICommand? UpdateCategoryCommand { get; set; }
+        public ICommand? UpdateCategoryStatusCommand { get; set; }
 
         #endregion
 
@@ -153,23 +183,38 @@ namespace GUI.ViewModels
         {
             _areaSearchTerm = string.Empty;
             _categorySearchTerm= string.Empty;
-            _productsSearchTerm= string.Empty;
+            _productSearchTerm= string.Empty;
+            _employeeSearchTerm= string.Empty;
 
             // Sets Services
             _areaSVC = services.GetService<IAreaSVC>();
             _categorySVC = services.GetService<ICategorySVC>();
             _productSVC = services.GetService<IProductSVC>();
+            _employeeSVC = services.GetService<IEmployeeSVC>();
 
 
             // Sets Commands
             RefreshDataCommand = new RelayCommand(ExecuteRefreshData);
+
             AddTablesCommand = new RelayCommand(ExecuteAddTablesCommand);
             DeleteTablesCommand = new RelayCommand(ExecuteDeleteTablesCommand);
+            UpdateAreaCommand = new RelayCommand(ExecuteUpdateAreaCommand);
+            UpdateAreaStatusCommand = new RelayCommand(ExecuteUpdateAreaStatusCommand);
+
+            AddCategoryCommand = new RelayCommand(ExecuteAddCategoryCommand);
+            UpdateCategoryCommand = new RelayCommand(ExecuteUpdateCategoryCommand);
+            UpdateCategoryStatusCommand = new RelayCommand(ExecuteUpdateCategoryStatusCommand);
+
 
             RefreshDataCommand?.Execute(null);
             SelectedAreaFilter = AreaFilter?.FirstOrDefault();
 
         }
+
+
+
+
+
 
         #endregion
 
@@ -186,6 +231,8 @@ namespace GUI.ViewModels
 
             UpdateCategoryFilterList();
             UpdateProductsList();
+
+            UpdateEmployeesList();
         }
 
         private void UpdateAreasList()
@@ -243,6 +290,12 @@ namespace GUI.ViewModels
 
 
         }
+        private void UpdateEmployeesList()
+        {
+            if (_employeeSVC != null)
+                Employees = new ObservableCollection<EmployeeDTO>(_employeeSVC.GetByName(EmployeeSearchTerm));
+        }
+
 
 
 
@@ -259,11 +312,56 @@ namespace GUI.ViewModels
             if (_areaSVC == null) return;
             var area = obj as AreaDTO;
             if (area == null) return;
-            MessageBox.Show(area.Name);
             MessageBox.Show(_areaSVC.AddTables(area));
             RefreshDataCommand?.Execute(null);
         }
+        private void ExecuteUpdateAreaCommand(object? obj)
+        {
+            if (_areaSVC == null) return;
+            var area = obj as AreaDTO;
+            if (area == null) return;
+            string msg = _areaSVC.UpdateArea(area);
+            MessageBox.Show(msg);
+            RefreshDataCommand?.Execute(null);
+        }
+        private void ExecuteUpdateAreaStatusCommand(object? obj)
+        {
+            if (_areaSVC == null) return;
+            var area = obj as AreaDTO;
+            if (area == null) return;
+            area.Status = !area.Status;
+            _areaSVC.UpdateArea(area);
+            RefreshDataCommand?.Execute(null);
+        }
 
+        private void ExecuteAddCategoryCommand(object? obj)
+        {
+            if (_categorySVC == null) return;
+            var cate = obj as CategoryDTO;
+            if (cate == null) return;
+            string msg = _categorySVC.Add(cate);
+            MessageBox.Show(msg);
+            RefreshDataCommand?.Execute(null);
+        }
+        private void ExecuteUpdateCategoryCommand(object? obj)
+        {
+            if (_categorySVC == null) return;
+            var cate = obj as CategoryDTO;
+            if (cate == null) return;
+            string msg = _categorySVC.Update(cate);
+            MessageBox.Show(msg);
+            RefreshDataCommand?.Execute(null);
+        }
+        private void ExecuteUpdateCategoryStatusCommand(object? obj)
+        {
+            if (_categorySVC == null) return;
+            var cate = obj as CategoryDTO;
+            if (cate == null) return;
+            cate.Status = !cate.Status;
+            string msg = _categorySVC.Update(cate);
+            MessageBox.Show(msg);
+            RefreshDataCommand?.Execute(null);
+        }
 
         #endregion
 

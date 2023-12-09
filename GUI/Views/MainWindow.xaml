@@ -146,6 +146,7 @@
                         </RadioButton>
 
                         <RadioButton x:Name="rdBtnEmployee"
+                                     Command="{Binding ShowEmployeeViewCommand}"
                                      Style="{StaticResource MenuTitleBtnStyle1}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="UserAlt"
@@ -253,7 +254,7 @@
 
                             <Ellipse Width="40" Height="40">
                                 <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding Employee.Avatar}"/>
+                                    <ImageBrush ImageSource="{Binding Employee.AvatarBitMap}"/>
                                 </Ellipse.Fill>
                             </Ellipse>
 

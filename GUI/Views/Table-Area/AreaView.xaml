@@ -15,7 +15,7 @@
 
         <!--Controls Region-->
         <Border Grid.Row="0"
-                Padding="10 0 20 0">
+                Padding="10 0">
 
             <Grid>
 
@@ -29,7 +29,6 @@
 
                     <!--Reset Button-->
                     <Button Style="{StaticResource ViewControlBtnStyle1}"
-                            Command="{Binding RefreshDataCommand}"
                             Margin="0 0 10 0">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="resetBtnTxt"
@@ -107,7 +106,7 @@
                     <ContextMenu>
                         <!-- Các MenuItem trong ContextMenu -->
                         <MenuItem Header="Edit Information" 
-                                  Command="{Binding ShowSelectedCommand}"
+                                  Command="{Binding ShowAreaInfoFormViewCommand}"
                                   CommandParameter="{Binding SelectedArea}"/>
                         <MenuItem Header="Add 25 Tables"
                                   Command="{Binding DataViewModel.AddTablesCommand}"
@@ -115,12 +114,14 @@
                         <MenuItem Header="Remove 25 Tables"
                                   Command="{Binding DataViewModel.DeleteTablesCommand}"
                                   CommandParameter="{Binding SelectedArea}"/>
+                        <MenuItem Header="Activate / DeActivate"
+                                  Command="{Binding DataViewModel.UpdateAreaStatusCommand}"
+                                  CommandParameter="{Binding SelectedArea}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
 
                 <DataGrid.Columns>
-
                     <DataGridTextColumn Header="#" 
                                         CanUserResize="False"
                                         Width="Auto"

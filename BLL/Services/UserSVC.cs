@@ -11,14 +11,16 @@ namespace BLL.Services
 {
     public class UserSVC : IUserSVC
     {
+        private BitMapConverter _bitMapConverter;
         private IAccountRES _accountRES;
         private IEmployeeRES _employeeRES;
         private IRoleRES _roleRES;
-        public UserSVC(IAccountRES accountRES, IEmployeeRES employeeRES, IRoleRES roleRES)
+        public UserSVC(IAccountRES accountRES, IEmployeeRES employeeRES, IRoleRES roleRES, BitMapConverter bitMapConverter)
         {
             _accountRES = accountRES;
             _employeeRES = employeeRES;
             _roleRES = roleRES;
+            _bitMapConverter = bitMapConverter;
         }
 
         public EmployeeDTO? Login(string username, string password)
@@ -41,7 +43,9 @@ namespace BLL.Services
                 Avatar = emp.Avatar,
                 Phone = emp.Phone,
                 UserName = acc.UserName,
-                RoleName = role.Name
+                RoleName = role.Name,
+                RoleID = role.RoleID,
+                AvatarBitMap = _bitMapConverter.GetBitMap(emp.Avatar),
             };
         }
 

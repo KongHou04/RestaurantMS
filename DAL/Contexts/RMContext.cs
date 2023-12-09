@@ -33,6 +33,10 @@ namespace DAL.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<WorkShift>(e =>
+            {
+                e.HasNoKey();
+            });
             modelBuilder.Entity<Account>(e =>
             {
                 e.HasOne(a => a.Employee)

@@ -347,20 +347,8 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.WorkShift", b =>
                 {
-                    b.Property<int>("WorkShiftID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("WorkShiftID"));
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("StartDate")
-                        .IsRequired()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("WorkShiftID");
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
 
                     b.ToTable("WorkShifts");
                 });

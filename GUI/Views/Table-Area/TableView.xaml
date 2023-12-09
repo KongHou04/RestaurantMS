@@ -16,7 +16,7 @@
 
         <!--Controls Region-->
         <Border Grid.Row="0"
-                Padding="10 0 20 0">
+                Padding="10 0 10 0">
 
             <Grid>
 

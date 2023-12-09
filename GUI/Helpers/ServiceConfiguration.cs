@@ -21,7 +21,14 @@ namespace RM_Project1.Helpers
             var connString = configuration.GetConnectionString("PostgreSqlConnString");
 
             ServiceCollection serviceCollection = new ServiceCollection();
-
+            serviceCollection.AddSingleton<BitMapConverter>(provider =>
+            {
+                var b = GetBitMapConverter();
+                if (b != null)
+                    return b;
+                else
+                    return new BitMapConverter(@"C:\Users\Admin\Desktop");
+            });
             serviceCollection.AddDbContext<RMContext>(b =>
             {
                 b.UseNpgsql(connString);
@@ -40,10 +47,22 @@ namespace RM_Project1.Helpers
 
             ServiceCollection serviceCollection = new ServiceCollection();
 
+            serviceCollection.AddSingleton<BitMapConverter>(provider =>
+            {
+                var b = GetBitMapConverter();
+                if (b != null)
+                    return b;
+                else
+                    return new BitMapConverter(@"C:\Users\Admin\Desktop");
+            });
+
             serviceCollection.AddSingleton<IAreaRES, AreaRES>();
             serviceCollection.AddSingleton<ITableRES, TableRES>();
             serviceCollection.AddSingleton<ICategoryRES, CategoryRES>();
             serviceCollection.AddSingleton<IProductRES, ProductRES>();
+            serviceCollection.AddSingleton<IEmployeeRES, EmployeeRES>();
+            serviceCollection.AddSingleton<IAccountRES, AccountRES>();
+            serviceCollection.AddSingleton<IRoleRES, RoleRES>();
 
             serviceCollection.AddDbContext<RMContext>(b =>
             {
@@ -52,11 +71,20 @@ namespace RM_Project1.Helpers
             serviceCollection.AddSingleton<IAreaSVC, AreaSVC>();
             serviceCollection.AddSingleton<ICategorySVC, CategorySVC>();
             serviceCollection.AddSingleton<IProductSVC, ProductSVC>();
+            serviceCollection.AddSingleton<IEmployeeSVC, EmployeeSVC>();
+
 
             return serviceCollection.BuildServiceProvider();
         }
 
-
+        public static BitMapConverter? GetBitMapConverter()
+        {
+            var root = configuration.GetSection("ImagePaths:DefaultEmployeeImageRoot");
+            if (root.Value != null)
+                return new BitMapConverter(root.Value);
+            else 
+                return null;
+        }
 
     }
 }

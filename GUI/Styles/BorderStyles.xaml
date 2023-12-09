@@ -8,7 +8,15 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background" Value="White"/>
     </Style>
-    
+
+    <Style x:Key="BorderStyle2" TargetType="Border">
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="BorderBrush" Value="LightGray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Margin" Value="0 5 0 0"/>
+        <Setter Property="Height" Value="30"/>
+    </Style>
+
     <Style x:Key="ImageBoxBorderStyle1" TargetType="Border">
         <Setter Property="BorderBrush" Value="{StaticResource color5}"/>
         <Setter Property="BorderThickness" Value="1"/>

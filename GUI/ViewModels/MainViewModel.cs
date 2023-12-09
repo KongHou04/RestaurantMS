@@ -131,6 +131,12 @@ namespace GUI.ViewModels
 
 
 
+        private EmployeeView? _employeeView;
+        public EmployeeView? EmployeeView
+        {
+            get { return _employeeView; }
+            set { _employeeView = value; OnPropertyChanged(nameof(EmployeeView)); }
+        }
 
 
 
@@ -138,13 +144,20 @@ namespace GUI.ViewModels
         // Commands
         public ICommand? LogOutCommand { get; set; }
 
+
         public ICommand? ShowTableAreaViewCommand { get; set; }
         public ICommand? ShowTableViewCommand { get; set; }
         public ICommand? ShowAreaViewCommand { get; set; }
+        public ICommand? ShowAreaInfoFormViewCommand { get; set; }
+
 
         public ICommand? ShowProductCategoryViewCommand { get; set; }
         public ICommand? ShowProductViewCommand { get; set; }
         public ICommand? ShowCategoryViewCommand { get; set; }
+        public ICommand? ShowCategoryInfoFormViewCommand { get; set; }
+
+
+        public ICommand? ShowEmployeeViewCommand { get; set; }
 
 
         // Constructors
@@ -164,17 +177,21 @@ namespace GUI.ViewModels
             ShowTableAreaViewCommand = new RelayCommand(ExecuteShowTableAreaViewCommand);
             ShowTableViewCommand = new RelayCommand(ExecuteShowTableViewCommand);
             ShowAreaViewCommand = new RelayCommand(ExecuteShowAreaViewCommand);
+            ShowAreaInfoFormViewCommand = new RelayCommand(ExecuteShowAreaInfoFormViewCommand);
 
             ShowProductCategoryViewCommand = new RelayCommand(ExecuteShowProductCategoryViewCommand);
             ShowProductViewCommand = new RelayCommand(ExecuteShowProductViewCommand);
             ShowCategoryViewCommand = new RelayCommand(ExecuteShowCategoryViewCommand);
+            ShowCategoryInfoFormViewCommand = new RelayCommand(ExecuteShowCategoryInfoFormViewCommand);
+
+            ShowEmployeeViewCommand = new RelayCommand(ExecuteShowEmployeeViewCommand);
 
 
             // Start Commands
             ShowProductCategoryViewCommand?.Execute(null);
         }
 
-        
+
 
         private void ExecuteShowTableAreaViewCommand(object? obj)
         {
@@ -199,6 +216,15 @@ namespace GUI.ViewModels
             if (AreaView == null) AreaView = new AreaView();
             TableAreaChildView = AreaView;
         }
+        private void ExecuteShowAreaInfoFormViewCommand(object? obj)
+        {
+            ActionView areaActionView = new ActionView(new AreaInfoFormView());
+            var dataContext = new AreaActionViewModel(DataViewModel, ShowAreaViewCommand, obj);
+            dataContext.SetBtnMode("clear,setdefault,update");
+            areaActionView.DataContext = dataContext;
+            TableAreaChildView = areaActionView;
+        }
+
 
         private void ExecuteShowProductCategoryViewCommand(object? obj)
         {
@@ -223,7 +249,29 @@ namespace GUI.ViewModels
             if (CategoryView == null) CategoryView = new CategoryView();
             ProductCategoryChildView = CategoryView;
         }
+        private void ExecuteShowCategoryInfoFormViewCommand(object? obj)
+        {
+            ActionView areaActionView = new ActionView(new CategoryInfoFormView());
+            var dataContext = new CategogryActionViewModel(DataViewModel, ShowCategoryViewCommand, obj);
+            if (obj == null)
+                dataContext.SetBtnMode("clear, add");
+            else
+                dataContext.SetBtnMode("clear, setdefault, update, delete");
+            areaActionView.DataContext = dataContext;
+            ProductCategoryChildView = areaActionView;
+        }
 
+
+        private void ExecuteShowEmployeeViewCommand(object? obj)
+        {
+            if (EmployeeView == null)
+            {
+                EmployeeView = new EmployeeView();
+            }
+            ChildView = EmployeeView;
+            TitleName = EmployeeView.TitleName;
+            TitleIcon = EmployeeView.TitleIcon;
+        }
 
 
 

@@ -15,11 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\Table-Area\" />
-    <Folder Include="Views\Employee\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
@@ -27,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj" />
-    <ProjectReference Include="..\DTO\DTO.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +36,12 @@
 
   <ItemGroup>
     <None Include="C:\Users\CONG HAU\Desktop\RM-Project1\GUI\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\InfoForms\CategoryInfoFormView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
