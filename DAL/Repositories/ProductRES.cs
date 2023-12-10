@@ -31,6 +31,29 @@ namespace DAL.Repositories
             }
         }
 
+        public Product? AddnReturn(Product obj)
+        {
+            Product product = new Product();
+            try
+            {
+                product.Name = obj.Name?.Trim();
+                product.UnitPrice = obj.UnitPrice;
+                product.Image = obj.Image;
+                product.Description = obj.Description;
+                product.Status = obj.Status;
+                product.CategoryID = obj.CategoryID;
+                _context.Products.Add(product);
+                _context.SaveChanges();
+                return product;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
         public Product? CheckByName(string name)
         {
             return _context.Products.ToList().FirstOrDefault(o => o.Name?.ToLower() == name.ToLower());

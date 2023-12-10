@@ -16,18 +16,18 @@ namespace GUI.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private EmployeeDTO? _employee;
-        public EmployeeDTO? Employee
-        {
-            get { return _employee; }
-            set { _employee = value; OnPropertyChanged(nameof(Employee)); }
-        }
-
         private DataViewModel? _dataViewModel;
         public DataViewModel? DataViewModel
         {
             get { return _dataViewModel; }
             set { _dataViewModel = value; OnPropertyChanged(nameof(DataViewModel)); }
+        }
+
+        private OrderDataViewModel? _orderDataViewModel;
+        public OrderDataViewModel? OrderDataViewModel
+        {
+            get { return _orderDataViewModel; }
+            set { _orderDataViewModel = value; OnPropertyChanged(nameof(OrderDataViewModel)); }
         }
 
 
@@ -137,6 +137,29 @@ namespace GUI.ViewModels
             get { return _employeeView; }
             set { _employeeView = value; OnPropertyChanged(nameof(EmployeeView)); }
         }
+        
+
+
+        private UserControl? _orderTableView;
+        public UserControl? OrderTableView
+        {
+            get => _orderTableView;
+            set { _orderTableView = value; OnPropertyChanged(nameof(OrderTableView)); }
+        }
+
+        private ValidTableView? _validTableView;
+        public ValidTableView? ValidTableView
+        {
+            get => _validTableView;
+            set { _validTableView = value; OnPropertyChanged(nameof(ValidTableView)); }
+        }
+
+        private OrderView? _orderView;
+        public OrderView? OrderView
+        {
+            get => _orderView;
+            set { _orderView = value; OnPropertyChanged(nameof(OrderView)); }
+        }
 
 
 
@@ -155,20 +178,28 @@ namespace GUI.ViewModels
         public ICommand? ShowProductViewCommand { get; set; }
         public ICommand? ShowCategoryViewCommand { get; set; }
         public ICommand? ShowCategoryInfoFormViewCommand { get; set; }
+        public ICommand? ShowProductInfoFormViewCommand { get; set; }
 
 
         public ICommand? ShowEmployeeViewCommand { get; set; }
+        public ICommand? ShowEmployeeInfoFormViewCommand { get; set; }
+
+
+        //public ICommand? ShowOrderTableViewCommand { get; set; }
+        public ICommand? ShowValidTableViewCommand { get; set; }
+        public ICommand? ShowOrderViewCommand { get; set; }
 
 
         // Constructors
         public MainViewModel()
         {
-            Employee = UserSection.Instance;
-            if (Employee == null) return;
-            if (Employee.RoleName == null) return;
-            var svc = ServiceConfiguration.GetApplicationServiceProvider(Employee.RoleName);
+            if (UserSection.Instance == null) return;
+            if (UserSection.Instance.RoleName == null) return;
+            var svc = ServiceConfiguration.GetApplicationServiceProvider(UserSection.Instance.RoleName);
             if (svc == null) return;
             DataViewModel = new DataViewModel(svc);
+            OrderDataViewModel = new OrderDataViewModel(svc);
+            DataViewModel.CurrentUser = UserSection.Instance;
 
 
             // Sets Commands
@@ -183,14 +214,18 @@ namespace GUI.ViewModels
             ShowProductViewCommand = new RelayCommand(ExecuteShowProductViewCommand);
             ShowCategoryViewCommand = new RelayCommand(ExecuteShowCategoryViewCommand);
             ShowCategoryInfoFormViewCommand = new RelayCommand(ExecuteShowCategoryInfoFormViewCommand);
+            ShowProductInfoFormViewCommand = new RelayCommand(ExecuteShowProductInfoFormViewCommand);
 
             ShowEmployeeViewCommand = new RelayCommand(ExecuteShowEmployeeViewCommand);
+            ShowEmployeeInfoFormViewCommand = new RelayCommand(ExecuteShowEmployeeInfoFormViewCommand);
 
+            //ShowOrderTableViewCommand = new RelayCommand(ExecuteShowOrderTableViewCommand);
+            ShowValidTableViewCommand = new RelayCommand(ExecuteShowValidTableViewCommand);
+            ShowOrderViewCommand = new RelayCommand(ExecuteShowOrderViewCommand);
 
             // Start Commands
-            ShowProductCategoryViewCommand?.Execute(null);
+            ShowValidTableViewCommand?.Execute(null);
         }
-
 
 
         private void ExecuteShowTableAreaViewCommand(object? obj)
@@ -260,6 +295,17 @@ namespace GUI.ViewModels
             areaActionView.DataContext = dataContext;
             ProductCategoryChildView = areaActionView;
         }
+        private void ExecuteShowProductInfoFormViewCommand(object? obj)
+        {
+            ActionView areaActionView = new ActionView(new ProductInfoFormView());
+            var dataContext = new ProductActionViewModel(DataViewModel, ShowProductViewCommand, obj);
+            if (obj == null)
+                dataContext.SetBtnMode("clear, add");
+            else
+                dataContext.SetBtnMode("clear, setdefault, update, delete");
+            areaActionView.DataContext = dataContext;
+            ProductCategoryChildView = areaActionView;
+        }
 
 
         private void ExecuteShowEmployeeViewCommand(object? obj)
@@ -271,6 +317,49 @@ namespace GUI.ViewModels
             ChildView = EmployeeView;
             TitleName = EmployeeView.TitleName;
             TitleIcon = EmployeeView.TitleIcon;
+        }
+        private void ExecuteShowEmployeeInfoFormViewCommand(object? obj)
+        {
+            ActionView areaActionView = new ActionView(new EmployeeInfoFormView());
+            var dataContext = new EmployeeActionViewModel(DataViewModel, ShowEmployeeViewCommand, obj);
+            if (obj == null)
+                dataContext.SetBtnMode("clear, add");
+            else
+                dataContext.SetBtnMode("clear, setdefault, update, delete");
+            EmployeeView = null;
+            areaActionView.DataContext = dataContext;
+            ChildView = areaActionView;
+        }
+
+
+        //private void ExecuteShowOrderTableViewCommand(object? obj)
+        //{
+        //    if (OrderTableView == null)
+        //    {
+        //        OrderTableView = new UserControl();
+        //        ShowValidTableViewCommand?.Execute(null);
+        //    }
+        //    ChildView = OrderTableView;
+        //    TitleName = "Order";
+        //    TitleIcon = IconChar.ShoppingCart;
+        //}
+
+        private void ExecuteShowValidTableViewCommand(object? obj)
+        {
+            if (ValidTableView == null)
+                ValidTableView = new ValidTableView();
+            ChildView = ValidTableView;
+            TitleName = "Order";
+            TitleIcon = IconChar.ShoppingCart;
+        }
+
+        private void ExecuteShowOrderViewCommand(object? obj)
+        {
+            if (OrderView == null)
+                OrderView = new OrderView();
+            ChildView = OrderView;
+            TitleName = "Order";
+            TitleIcon = IconChar.ShoppingCart;
         }
 
 

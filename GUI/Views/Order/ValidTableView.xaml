@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GUI.Views.ProductView"
+﻿<UserControl x:Class="GUI.Views.ValidTableView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:GUI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
     <Grid Grid.Row="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -15,7 +14,7 @@
 
         <!--Controls Region-->
         <Border Grid.Row="0"
-                Padding="10 0">
+                Padding="10 0 10 0">
 
             <Grid>
 
@@ -37,75 +36,34 @@
                         </StackPanel>
                     </Button>
 
-                    <!--Add Button-->
-                    <Button Style="{StaticResource ViewControlBtnStyle1}"
-                            Command="{Binding ShowProductInfoFormViewCommand}"
-                            Margin="10 0 10 0">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock x:Name="addBtnTxt"
-                                       Text="ADD NEW PRODUCT"
-                                       Style="{StaticResource ControlViewTxtStyle1}" FontFamily="Dosis"/>
-                        </StackPanel>
-                    </Button>
+
 
                 </StackPanel>
 
                 <!--Filter Selection-->
-                <StackPanel Grid.Column="1"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Right">
-                    <ComboBox 
-                              Width="150"
-                              FocusVisualStyle="{x:Null}"
-                              Style="{StaticResource ComboBoxFlatStyle}"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Center" 
-                              BorderBrush="{StaticResource color10}"
-                              Foreground="{StaticResource color11}"
-                              Cursor="Hand" Margin="0 0 30 0"
-                              ItemsSource="{Binding DataViewModel.CategoryFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedItem="{Binding DataViewModel.SelectedCategoryFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Name"
-                              />
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="7*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Filter by"
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="6*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1"
+                                HorizontalAlignment="Right">
+                        <TextBlock Text="Area: "
+                                   Style="{StaticResource TextStyle2}"
                                    VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"
-                                   Margin="0 0 15 0"
-                                   FontFamily="Roboto"
-                                   FontSize="12"
-                                   FontWeight="Medium"
-                                   Foreground="{StaticResource color11}"/>
-                        <Border Grid.Column="1"
-                            BorderThickness="1" 
-                            BorderBrush="#abc0af" 
-                            Height="30"
-                            CornerRadius="7">
+                                   Margin="10 0"/>
+                        <ComboBox Style="{StaticResource ComboBoxFlatStyle}"
+                                  Width="200"
+                                  HorizontalAlignment="Right"
+                                  ItemsSource="{Binding OrderDataViewModel.AreaFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="Name"
+                                  SelectedItem="{Binding OrderDataViewModel.SelectedAreaFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  />
+                    </StackPanel>
 
-                            <Grid Margin="2 0"
-                                  Width="250"
-                              VerticalAlignment="Center">
-
-                                <TextBlock x:Name="txtSearch" 
-                                       Text="Search by Name"
-                                       Style="{StaticResource HintTxtStyle1}"
-                                       MouseDown="txtSearch_MouseDown"
-                                       />
-
-                                <TextBox x:Name="txtBoxSearch"
-                                         Text="{Binding DataViewModel.ProductSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         TextChanged="txtBoxSearch_TextChanged"
-                                         Style="{StaticResource InputTxtBoxStyle1}"
-                                         />
-                            </Grid>
-                        </Border>
-                    </Grid>
-
-                </StackPanel>
+                </Grid>
 
 
             </Grid>
@@ -116,7 +74,7 @@
         <Grid Grid.Row="1"
               Margin="0 0 10 0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding DataViewModel.Products}"
+                <ItemsControl ItemsSource="{Binding OrderDataViewModel.Tables}"
                               Margin="10"
                               ScrollViewer.CanContentScroll="True">
 
@@ -132,10 +90,10 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
 
-                                            <Button Width="140" Height="140" Margin="0 10 15 10" VerticalAlignment="Bottom"
+                                            <Button Width="100" Height="100" Margin="0 10 12 10" VerticalAlignment="Bottom"
                                                     CommandParameter="{Binding}">
                                                 <Button.Command>
-                                                    <Binding Path="DataContext.ShowProductInfoFormViewCommand" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
+                                                    <Binding Path="DataContext.ShowOrderViewCommand" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
                                                 </Button.Command>
                                                 <Grid>
                                                     <Grid.RowDefinitions>
@@ -153,12 +111,6 @@
                                                                            VerticalAlignment="Bottom"
                                                                            HorizontalAlignment="Center"
                                                                            Padding="5 0"/>
-                                                    <TextBlock Text="{Binding UnitPrice, StringFormat='{}{0:#,0}'}"
-                                                                           FontFamily="Montserrat"
-                                                                           FontSize="12"
-                                                                           FontWeight="Normal"
-                                                                           HorizontalAlignment="Center"
-                                                                           Grid.Row="1"/>
                                                 </Grid>
                                                 <Button.Style>
                                                     <Style TargetType="Button">
@@ -203,7 +155,7 @@
                                                                 </Setter>
                                                             </DataTrigger>
                                                         </Style.Triggers>
-                                                        
+
                                                     </Style>
                                                 </Button.Style>
 
@@ -228,5 +180,4 @@
         </Grid>
 
     </Grid>
-
 </UserControl>

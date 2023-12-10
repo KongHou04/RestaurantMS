@@ -23,8 +23,8 @@ namespace RM_Project1
             //new AutoWindow().Show();
             //new WindowDemo().Show();
 
-            //LoginWindow loginWindow = new LoginWindow();
-            //loginWindow.Show();
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
 
 
         }

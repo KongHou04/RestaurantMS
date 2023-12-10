@@ -271,7 +271,7 @@
                     <Border Background="{TemplateBinding Background}"
                             CornerRadius="5"
                             BorderBrush="{StaticResource color5}"
-                            Height="25"
+                            Height="30"
                             Padding="8 0">
                         <ContentPresenter VerticalAlignment="Center"
                                           HorizontalAlignment="Center"

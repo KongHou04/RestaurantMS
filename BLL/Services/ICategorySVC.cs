@@ -12,7 +12,7 @@ namespace BLL.Services
 {
     public class CategorySVC : ICategorySVC
     {
-        private ICategoryRES _categoryRES;
+        private readonly ICategoryRES _categoryRES;
         public CategorySVC(ICategoryRES CategoryRES)
         {
             _categoryRES = CategoryRES;

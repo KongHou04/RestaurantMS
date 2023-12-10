@@ -43,6 +43,7 @@ namespace DAL.Contexts
                     .WithOne(e => e.Account)
                     .HasForeignKey<Account>(a => a.EmployeeID)
                     .OnDelete(DeleteBehavior.SetNull);
+                e.HasIndex(a => a.UserName);
             });
             modelBuilder.Entity<Bill>(e =>
             {

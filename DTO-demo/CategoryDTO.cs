@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class CategoryDTO :BaseDTOModel
+    public class CategoryDTO : BaseDTOModel
     {
         private int _id;
         public int ID

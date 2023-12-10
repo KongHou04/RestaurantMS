@@ -15,5 +15,6 @@ namespace DTO
         public string? Description { get; set; }
         public string? AreaName { get; set; }
         public int? AreaID { get; set; }
+        public int? CurrentOrderID { get; set; }
     }
 }

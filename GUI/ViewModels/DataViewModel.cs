@@ -22,10 +22,18 @@ namespace GUI.ViewModels
         private ICategorySVC? _categorySVC { get; }
         private IProductSVC? _productSVC { get; }
         private IEmployeeSVC? _employeeSVC { get; }
+        private ISelfUserSVC? _selfUserSVC { get; }
         #endregion
 
 
         #region Fields - Properties
+
+        private EmployeeDTO? _currentUser;
+        public EmployeeDTO? CurrentUser
+        {
+            get { return _currentUser; }
+            set { _currentUser = value; OnPropertyChanged(nameof(CurrentUser)); }
+        }
 
         #region Areas
         private ObservableCollection<AreaDTO>? _areas;
@@ -136,6 +144,13 @@ namespace GUI.ViewModels
                 UpdateProductsList();
             }
         }
+
+        private ObservableCollection<CategoryDTO>? _categoryFilterToEdit;
+        public ObservableCollection<CategoryDTO>? CategoryFilterToEdit
+        {
+            get { return _categoryFilterToEdit; }
+            set { _categoryFilterToEdit = value; OnPropertyChanged(nameof(CategoryFilterToEdit)); }
+        }
         #endregion
 
         #region Employees
@@ -158,6 +173,13 @@ namespace GUI.ViewModels
             }
         }
 
+        private ObservableCollection<RoleDTO>? _roleFilterToEdit;
+        public ObservableCollection<RoleDTO>? RoleFilterToEdit
+        {
+            get { return _roleFilterToEdit; }
+            set { _roleFilterToEdit = value; OnPropertyChanged(nameof(RoleFilterToEdit)); }
+        }
+
         #endregion
 
         #endregion
@@ -175,6 +197,11 @@ namespace GUI.ViewModels
         public ICommand? UpdateCategoryCommand { get; set; }
         public ICommand? UpdateCategoryStatusCommand { get; set; }
 
+        internal ICommand? AddProductCommand { get; private set; }
+        public ICommand? UpdateProductCommand { get; set; }
+        
+        internal ICommand? AddEmployeeCommand { get; private set; }
+        public ICommand? UpdateEmployeeCommand { get; set; }
         #endregion
 
 
@@ -191,6 +218,7 @@ namespace GUI.ViewModels
             _categorySVC = services.GetService<ICategorySVC>();
             _productSVC = services.GetService<IProductSVC>();
             _employeeSVC = services.GetService<IEmployeeSVC>();
+            _selfUserSVC = services.GetService<ISelfUserSVC>();
 
 
             // Sets Commands
@@ -204,6 +232,12 @@ namespace GUI.ViewModels
             AddCategoryCommand = new RelayCommand(ExecuteAddCategoryCommand);
             UpdateCategoryCommand = new RelayCommand(ExecuteUpdateCategoryCommand);
             UpdateCategoryStatusCommand = new RelayCommand(ExecuteUpdateCategoryStatusCommand);
+            
+            AddProductCommand = new RelayCommand(ExecuteAddProductCommand);
+            UpdateProductCommand = new RelayCommand(ExecuteUpdateProductCommand);
+
+            AddEmployeeCommand = new RelayCommand(ExecuteAddEmployeeCommand);
+            UpdateEmployeeCommand = new RelayCommand(ExecuteUpdateEmployeeCommand);
 
 
             RefreshDataCommand?.Execute(null);
@@ -215,13 +249,13 @@ namespace GUI.ViewModels
 
 
 
-
         #endregion
 
 
         #region Methods
         private void ExecuteRefreshData(object? obj)
         {
+            RefreshCurrentUser();
             UpdateAreasList();
 
             UpdateAreaFilterList();
@@ -230,11 +264,19 @@ namespace GUI.ViewModels
             UpdateCategoriesList();
 
             UpdateCategoryFilterList();
+            UpdateCategoryFilterToEditList();
             UpdateProductsList();
 
             UpdateEmployeesList();
+            UpdateRoleFilterToEditList();
         }
 
+
+        private void RefreshCurrentUser()
+        {
+            if (_selfUserSVC != null && CurrentUser != null)
+                _selfUserSVC.RefreshCurrentUser(CurrentUser);
+        }
         private void UpdateAreasList()
         {
             if (_areaSVC != null)
@@ -279,6 +321,11 @@ namespace GUI.ViewModels
             else
                 SelectedCategoryFilter = CategoryFilter?.FirstOrDefault(o => o.Name?.ToLower() == "All".ToLower());
         }
+        private void UpdateCategoryFilterToEditList()
+        {
+            if (_categorySVC != null)
+                CategoryFilterToEdit = new ObservableCollection<CategoryDTO>(_categorySVC.GetByName(""));
+        }
         private void UpdateProductsList()
         {
             if (_productSVC != null && SelectedCategoryFilter != null)
@@ -293,9 +340,13 @@ namespace GUI.ViewModels
         private void UpdateEmployeesList()
         {
             if (_employeeSVC != null)
-                Employees = new ObservableCollection<EmployeeDTO>(_employeeSVC.GetByName(EmployeeSearchTerm));
+                Employees = new ObservableCollection<EmployeeDTO>(_employeeSVC.GetAllEmployeesByName(EmployeeSearchTerm));
         }
-
+        private void UpdateRoleFilterToEditList()
+        {
+            if (_employeeSVC != null)
+                RoleFilterToEdit = new ObservableCollection<RoleDTO>(_employeeSVC.GetAllRoles());
+        }
 
 
 
@@ -362,6 +413,52 @@ namespace GUI.ViewModels
             MessageBox.Show(msg);
             RefreshDataCommand?.Execute(null);
         }
+
+        private void ExecuteAddProductCommand(object? obj)
+        {
+            if (_productSVC == null) return;
+            var pro = obj as ProductDTO;
+            if (pro == null) return;
+
+            string msg = _productSVC.Add(pro);
+            MessageBox.Show(msg);
+            RefreshDataCommand?.Execute(null);
+        }
+        private void ExecuteUpdateProductCommand(object? obj)
+        {
+            if (_productSVC == null) return;
+            var pro = obj as ProductDTO;
+            if (pro == null) return;
+
+            string msg = _productSVC.Update(pro);
+            MessageBox.Show(msg);
+            RefreshDataCommand?.Execute(null);
+        }
+
+        private void ExecuteAddEmployeeCommand(object? obj)
+        {
+            if (_employeeSVC == null) return;
+            var emp = obj as EmployeeDTO;
+            if (emp == null) return;
+            string msg = _employeeSVC.Add(emp);
+            MessageBox.Show(msg);
+            RefreshDataCommand?.Execute(null);
+        }
+        private void ExecuteUpdateEmployeeCommand(object? obj)
+        {
+            if (_employeeSVC == null) return;
+            var emp = obj as EmployeeDTO;
+            if (emp == null) return;
+            string msg = _employeeSVC.Update(emp);
+            MessageBox.Show(msg);
+            RefreshDataCommand?.Execute(null);
+        }
+
+
+
+
+
+
 
         #endregion
 

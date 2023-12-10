@@ -7,31 +7,47 @@ namespace BLL.Services
 {
     public class ProductSVC : IProductSVC
     {
-        private IProductRES _productRES;
-        private ICategoryRES _categoryRES;
-        public ProductSVC(IProductRES productRES, ICategoryRES categoryRES)
+        ImageHandlerSVC _imageHandler;
+        private readonly IProductRES _productRES;
+        private readonly ICategoryRES _categoryRES;
+        public ProductSVC(IProductRES productRES, ICategoryRES categoryRES, ImageHandlerSVC imageHandler)
         {
             _productRES = productRES;
             _categoryRES = categoryRES;
+            _imageHandler = imageHandler;
         }
 
         public string Add(ProductDTO obj)
         {
+            
             if (obj.Name == null)
+                return "Name cannot be empty";
+            if (obj.Name.Length == 0)
                 return "Name cannot be empty";
             if (_productRES.CheckByName(obj.Name.Trim()) != null)
                 return "Product Name already exist";
+            string? imageSrc = obj.Image;
             var entity = new Product()
             {
                 Name = obj.Name?.Trim(),
                 UnitPrice = obj.UnitPrice,
-                Image = obj.Image,
                 Status = obj.Status,
                 Description = obj.Description,
                 CategoryID = obj.CategoryID,
             };
-            if (_productRES.Add(entity))
-                return "Add successfully";
+            var p = _productRES.AddnReturn(entity);
+            if (p != null)
+            {
+                p.Image = p.ProductID + ".jpg";
+                if (_productRES.Update(p))
+                {
+                    if (imageSrc != null)
+                        _imageHandler.CopyImage(imageSrc, p.Image);
+                    return "Add successfully";
+                }
+                else
+                    return "Add successfully but cannot save product image";
+            }
             return "Cannot add new Product! Try later!";
         }
 
@@ -69,7 +85,7 @@ namespace BLL.Services
                            Name = p.Name?.Trim(),
                            Status = p.Status,
                            UnitPrice = p.UnitPrice,
-                           Image = p.Image,
+                           Image = _imageHandler.GetImageDirecory(p.Image),
                            Description = p.Description,
                            CategoryName = c.Name,
                            CategoryID = c.CategoryID,
@@ -92,7 +108,7 @@ namespace BLL.Services
                             Name = p.Name?.Trim(),
                             Status = p.Status,
                             UnitPrice = p.UnitPrice,
-                            Image = p.Image,
+                            Image = _imageHandler.GetImageDirecory(p.Image),
                             Description = p.Description,
                             CategoryName = c.Name,
                             CategoryID = c.CategoryID
@@ -117,7 +133,7 @@ namespace BLL.Services
                                 Name = p.Name?.Trim(),
                                 Status = p.Status,
                                 UnitPrice = p.UnitPrice,
-                                Image = p.Image,
+                                Image = _imageHandler.GetImageDirecory(p.Image),
                                 Description = p.Description,
                                 CategoryName = c.Name,
                                 CategoryID = c.CategoryID
@@ -135,7 +151,7 @@ namespace BLL.Services
                             Name = p.Name?.Trim(),
                             Status = p.Status,
                             UnitPrice = p.UnitPrice,
-                            Image = p.Image,
+                            Image = _imageHandler.GetImageDirecory(p.Image),
                             Description = p.Description,
                             CategoryName = c.Name,
                             CategoryID = c.CategoryID
@@ -147,17 +163,27 @@ namespace BLL.Services
 
         public string Update(ProductDTO obj)
         {
+            if (obj.Name == null)
+                return "Name cannot be empty";
+            if (obj.Name.Length == 0)
+                return "Name cannot be empty";
             var entity = _productRES.GetByID(obj.ID);
             if (entity == null)
                 return "Product does not exist!";
+            string? imageSrc = obj.Image;
             entity.Name = obj.Name;
             entity.Status = obj.Status;
             entity.Description = obj.Description;
             entity.UnitPrice = obj.UnitPrice;
-            entity.Image = obj.Image;
+            entity.Image = entity.ProductID + ".jpg";
+            
             entity.CategoryID = obj.CategoryID;
             if (_productRES.Update(entity))
+            {
+                if (imageSrc != null)
+                    _imageHandler.CopyImage(imageSrc, entity.Image);
                 return "Update successfully";
+            }
             else
                 return "Cannot delete or update the Product";
         }

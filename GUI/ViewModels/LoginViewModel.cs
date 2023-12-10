@@ -294,7 +294,8 @@ namespace GUI.ViewModels
         {
             UsernameOrPassWrongNotification = string.Empty;
             if (_userSVC == null) return;
-            UserSection.SetCurrentUser(_userSVC.Login(UserName, Password));
+            var e = _userSVC.Login(UserName, Password);
+            UserSection.SetCurrentUser(e);
             if (UserSection.Instance == null)
             {
                 UsernameOrPassWrongNotification = "Username or Password was wrong";

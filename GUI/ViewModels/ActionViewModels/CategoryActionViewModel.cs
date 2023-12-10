@@ -10,16 +10,6 @@ namespace GUI.ViewModels
 {
     public class CategogryActionViewModel : ActionViewModel<CategoryDTO>
     {
-        private DataViewModel? _dataViewModel;
-        public DataViewModel? DataViewModel
-        {
-            get { return _dataViewModel; }
-            set { _dataViewModel = value; OnPropertyChanged(nameof(DataViewModel)); }
-        }
-
-
-
-
         public string Title { get; set; } = "Category Information Form";
         public CategogryActionViewModel(DataViewModel? dataViewModel, ICommand? backCommand, object? updateObj = null) : base(backCommand, updateObj)
         {

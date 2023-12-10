@@ -42,5 +42,6 @@
     <Color x:Key="bgColor3">#2614e0</Color>
     <Color x:Key="bgColor4">#1a913b</Color>
     <Color x:Key="bgColor5">#21a345</Color>
+    <Color x:Key="bgColor6">#d0d6d2</Color>
 
 </ResourceDictionary>

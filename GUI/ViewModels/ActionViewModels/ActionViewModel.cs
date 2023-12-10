@@ -5,12 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace GUI.ViewModels
 {
     public class ActionViewModel <T> : BaseViewModel
     {
         // Fields - Properties
+        private DataViewModel? _dataViewModel;
+        public DataViewModel? DataViewModel
+        {
+            get { return _dataViewModel; }
+            set { _dataViewModel = value; OnPropertyChanged(nameof(DataViewModel)); }
+        }
+
         public bool IsClearBtnVisible { get; set; } = true;
         public bool IsSetDefaultBtnVisible { get; set; } = true;
         public bool IsAddBtnVisible { get; set; } = true;
@@ -31,6 +39,13 @@ namespace GUI.ViewModels
             set { idString = value; OnPropertyChanged(IDString); }
         }
 
+        private string image = "";
+        public string Image
+        {
+            get { return image; }
+            set { image = value; OnPropertyChanged(Image); }
+        }
+
         private T? _updateObj;
         public T? UpdateObj
         {
@@ -46,7 +61,7 @@ namespace GUI.ViewModels
         public ICommand? AddCommand { get; set; }
         public ICommand? UpdateCommand { get; set; }
         public ICommand? DeleteCommand { get; set; }
-
+        public ICommand? OpenImageCommand { get; set; }
 
         // Constructors
         public ActionViewModel(ICommand? backCommand, object? updateObj)
@@ -59,6 +74,10 @@ namespace GUI.ViewModels
         {
             ClearCommand = new RelayCommand(clearFunc);
             SetDefaultCommand = new RelayCommand(setDefaultFunc);
+        }
+        protected void SetOpenImageCommands(Action<object?> openImageFunc)
+        {
+            OpenImageCommand = new RelayCommand(openImageFunc);
         }
         public void SetBtnMode(string mode)
         {
@@ -74,8 +93,23 @@ namespace GUI.ViewModels
             if (mode.Contains("delete")) IsDeleteBtnVisible = true;
             else IsDeleteBtnVisible = false;
         }
-
-
+        protected BitmapImage? SetBitMap(string path)
+        {
+            try
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(path);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                return bitmap;
+            }
+            catch
+            {
+                return null;
+            } 
+            
+        }
 
     }
 }

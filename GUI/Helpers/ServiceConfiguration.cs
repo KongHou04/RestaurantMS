@@ -21,13 +21,13 @@ namespace RM_Project1.Helpers
             var connString = configuration.GetConnectionString("PostgreSqlConnString");
 
             ServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddSingleton<BitMapConverter>(provider =>
+            serviceCollection.AddSingleton<ImageHandlerSVC>(provider =>
             {
-                var b = GetBitMapConverter();
+                var b = GetImageHandler();
                 if (b != null)
                     return b;
                 else
-                    return new BitMapConverter(@"C:\Users\Admin\Desktop");
+                    return new ImageHandlerSVC(@"C:\Users\Admin\Desktop", @"C:\Users\Admin\Desktop");
             });
             serviceCollection.AddDbContext<RMContext>(b =>
             {
@@ -47,13 +47,13 @@ namespace RM_Project1.Helpers
 
             ServiceCollection serviceCollection = new ServiceCollection();
 
-            serviceCollection.AddSingleton<BitMapConverter>(provider =>
+            serviceCollection.AddSingleton<ImageHandlerSVC>(provider =>
             {
-                var b = GetBitMapConverter();
+                var b = GetImageHandler();
                 if (b != null)
                     return b;
                 else
-                    return new BitMapConverter(@"C:\Users\Admin\Desktop");
+                    return new ImageHandlerSVC(@"C:\Users\Admin\Desktop", @"C:\Users\Admin\Desktop");
             });
 
             serviceCollection.AddSingleton<IAreaRES, AreaRES>();
@@ -63,6 +63,8 @@ namespace RM_Project1.Helpers
             serviceCollection.AddSingleton<IEmployeeRES, EmployeeRES>();
             serviceCollection.AddSingleton<IAccountRES, AccountRES>();
             serviceCollection.AddSingleton<IRoleRES, RoleRES>();
+            serviceCollection.AddSingleton<IOrderRES, OrderRES>();
+            serviceCollection.AddSingleton<IOrderDetailRES, OrderDetailRES>();
 
             serviceCollection.AddDbContext<RMContext>(b =>
             {
@@ -72,16 +74,19 @@ namespace RM_Project1.Helpers
             serviceCollection.AddSingleton<ICategorySVC, CategorySVC>();
             serviceCollection.AddSingleton<IProductSVC, ProductSVC>();
             serviceCollection.AddSingleton<IEmployeeSVC, EmployeeSVC>();
+            serviceCollection.AddSingleton<ISelfUserSVC, SelfUserSVC>();
+            serviceCollection.AddSingleton<IOrderSVC, OrderSVC>();
 
 
             return serviceCollection.BuildServiceProvider();
         }
 
-        public static BitMapConverter? GetBitMapConverter()
+        public static ImageHandlerSVC? GetImageHandler()
         {
-            var root = configuration.GetSection("ImagePaths:DefaultEmployeeImageRoot");
-            if (root.Value != null)
-                return new BitMapConverter(root.Value);
+            var root1 = configuration.GetSection("ImagePaths:DefaultEmployeeImageRoot");
+            var root2 = configuration.GetSection("ImagePaths:DefaultProductImageRoot");
+            if (root1.Value != null && root2.Value != null)
+                return new ImageHandlerSVC(root1.Value, root2.Value);
             else 
                 return null;
         }

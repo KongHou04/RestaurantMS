@@ -23,6 +23,22 @@ namespace GUI.Views
         public ProductInfoFormView()
         {
             InitializeComponent();
+
+        }
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var o = sender as TextBox;
+            if (o != null)
+            {
+                if (o.Text.Length == 0)
+                    o.Text = 0.ToString();
+            }
+            // Kiểm tra xem chuỗi mới nhập có phải là số hay không
+            if (!int.TryParse(e.Text, out _))
+            {
+                // Nếu không phải là số, ngăn chặn sự kiện PreviewTextInput
+                e.Handled = true;
+            }
         }
     }
 }

@@ -13,8 +13,8 @@ namespace BLL.Services
 {
     public class AreaSVC : IAreaSVC
     {
-        private IAreaRES _areaRES;
-        private ITableRES _tableRES;
+        private readonly IAreaRES _areaRES;
+        private readonly ITableRES _tableRES;
 
         public AreaSVC(IAreaRES areaRES, ITableRES tableRES)
         {

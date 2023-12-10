@@ -61,6 +61,11 @@ namespace DAL.Interfaces
             return _context.Areas.OrderBy(o => o.AreaID).ToList();
         }
 
+        public List<Area> GetAllValid()
+        {
+            return _context.Areas.Where(o => o.Status == true).OrderBy(o => o.AreaID).ToList();
+        }
+
         public Area? GetByID(int id)
         {   
             return _context.Areas.ToList().FirstOrDefault(o => o.AreaID == id);

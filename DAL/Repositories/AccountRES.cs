@@ -15,6 +15,7 @@ namespace DAL.Interfaces
             {
                 account.UserName = obj.UserName;
                 account.HashPassword = obj.HashPassword;
+                account.EmployeeID = obj.EmployeeID;
                 _context.Add(account);
                 _context.SaveChanges();
                 return true;

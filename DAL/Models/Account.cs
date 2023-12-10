@@ -7,6 +7,9 @@ namespace DAL.Models
     public class Account
     {
         [Key]
+        public int Id { get; set; }
+
+        [Required]
         [MaxLength(100)]
         public string? UserName { get; set; }
 

@@ -86,6 +86,7 @@
                                 Margin="0 20">
                         
                         <RadioButton x:Name="rdBtnOrder"
+                                     Command="{Binding ShowValidTableViewCommand}"
                                      Style="{StaticResource MenuTitleBtnStyle1}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="ShoppingCart"
@@ -254,7 +255,7 @@
 
                             <Ellipse Width="40" Height="40">
                                 <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding Employee.AvatarBitMap}"/>
+                                    <ImageBrush ImageSource="{Binding DataViewModel.CurrentUser.Avatar, UpdateSourceTrigger=PropertyChanged}"/>
                                 </Ellipse.Fill>
                             </Ellipse>
 
@@ -267,7 +268,7 @@
                                        TextAlignment="Center"
                                        FontWeight="Medium"
                                        TextTrimming="CharacterEllipsis"
-                                       Text="{Binding Employee.FullName}"/>
+                                       Text="{Binding DataViewModel.CurrentUser.FullName, UpdateSourceTrigger=PropertyChanged}"/>
 
 
 

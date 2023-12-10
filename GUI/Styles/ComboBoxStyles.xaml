@@ -315,11 +315,11 @@
 
 
     <!-- Flat ComboBox -->
-    <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#e3e9ef" />
+    <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="{StaticResource primaryBgColor2}" />
     <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#888" />
-    <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#eee" />
-    <SolidColorBrush x:Key="ComboBoxDisabledBorderBrush" Color="#888" />
+    <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBoxDisabledBorderBrush" Color="Transparent" />
 
     <ControlTemplate TargetType="ToggleButton" x:Key="ComboBoxToggleButtonTemplate">
         <Grid>
@@ -343,10 +343,10 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="UIElement.IsMouseOver" Value="True">
-                <Setter Property="Panel.Background" TargetName="ButtonBorder" Value="WhiteSmoke"/>
+                <Setter Property="Panel.Background" TargetName="ButtonBorder" Value="Transparent"/>
             </Trigger>
             <Trigger Property="ToggleButton.IsChecked" Value="True">
-                <Setter Property="Panel.Background" TargetName="ButtonBorder" Value="WhiteSmoke"/>
+                <Setter Property="Panel.Background" TargetName="ButtonBorder" Value="Transparent"/>
                 <Setter Property="Shape.Fill" TargetName="Arrow" Value="#FF8D979E"/>
             </Trigger>
             <Trigger Property="UIElement.IsEnabled" Value="False">

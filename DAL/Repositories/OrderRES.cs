@@ -56,6 +56,11 @@ namespace DAL.Interfaces
             return _context.Orders.ToList();
         }
 
+        public List<Order> GetAllUnpayOrder()
+        {
+            return _context.Orders.Where(o => o.Status == true && o.PaymentStatus == false).ToList();
+        }
+
         public List<Order> GetByDate(DateTime date)
         {
             return _context.Orders.ToList().Where(o => o.OrderTime.Date == date.Date).ToList();
@@ -66,9 +71,9 @@ namespace DAL.Interfaces
             return _context.Orders.ToList().FirstOrDefault(c => c.OrderID == id);
         }
 
-        public Order? GetLastByTable(int tableID)
+        public Order? GetCurrentOrderByTable(int tableID)
         {
-            return _context.Orders.ToList().LastOrDefault(c => c.TableID == tableID);
+            return _context.Orders.LastOrDefault(c => c.TableID == tableID && c.Status == true && c.PaymentStatus == false);
         }
 
         public bool Update(Order obj)

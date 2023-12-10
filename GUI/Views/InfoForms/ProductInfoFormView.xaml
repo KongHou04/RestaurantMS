@@ -31,11 +31,34 @@
             </Border>
         </StackPanel>
 
-        <Image Grid.Column="1"
-               Grid.RowSpan="2"
-               Width="140"
-               Source="/Resources/admin.jpg"
-               />
+        <Button Grid.Column="1"
+                Grid.RowSpan="3"
+                Command="{Binding OpenImageCommand}"
+                FocusVisualStyle="{x:Null}">
+
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border Width="180"
+                                        Height="180"
+                                        Margin="0 10 0 0"
+                                        BorderBrush="LightGray"
+                                        BorderThickness="1"
+                                        Background="{TemplateBinding Background}">
+                                    <Image Source="{Binding Obj.ImageBitMap}"
+                                           Stretch="UniformToFill"
+                                           HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>    
+                </Style>
+            </Button.Style>
+        </Button>
 
         <StackPanel Margin="20 10"
                     Grid.Column="0"
@@ -73,14 +96,16 @@
                 </StackPanel>
             </Border>
         </StackPanel>
-        
+
+
         <StackPanel Margin="20 10"
                     Grid.Column="1"
-                    Grid.Row="2">
+                    Grid.Row="3">
             <TextBlock Style="{StaticResource TextStyle4}"
                        Text="Unit Price"/>
             <Border Style="{StaticResource BorderStyle2}">
                 <TextBox Style="{StaticResource TextBoxStyle2}"
+                         PreviewTextInput="TextBox_PreviewTextInput"
                          Text="{Binding Obj.UnitPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
         </StackPanel>
@@ -89,9 +114,13 @@
                     Grid.Column="0"
                     Grid.Row="3">
             <TextBlock Style="{StaticResource TextStyle4}"
-                       Text="Unit Price"/>
-            <ComboBox Margin="0 5 0 0"
-                      Style="{StaticResource ComboBoxFlatStyle}"/>
+                       Text="Category"/>
+            <ComboBox x:Name="comboBox"
+                      Margin="0 5 0 0"
+                      Style="{StaticResource ComboBoxFlatStyle}"
+                      ItemsSource="{Binding DataViewModel.CategoryFilterToEdit}"
+                      SelectedItem="{Binding SelectedCategory}"
+                      DisplayMemberPath="Name"/>
         </StackPanel>
 
 

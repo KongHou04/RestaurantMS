@@ -106,7 +106,7 @@ namespace DAL.Interfaces
             try
             {
                 updateObj.FullName = obj.FullName;
-                updateObj.BirthDate = obj.BirthDate;
+                updateObj.BirthDate = obj.BirthDate.ToUniversalTime(); ;
                 updateObj.Email = obj.Email;
                 updateObj.Phone = obj.Phone;
                 updateObj.Avatar = obj.Avatar;

@@ -6,13 +6,6 @@ namespace GUI.ViewModels
 {
     public class AreaActionViewModel : ActionViewModel<AreaDTO>
     {
-        private DataViewModel? _dataViewModel;
-        public DataViewModel? DataViewModel
-        {
-            get { return _dataViewModel; }
-            set { _dataViewModel = value; OnPropertyChanged(nameof(DataViewModel)); }
-        }
-
         public string Title { get; set; } = "Area Information Form";
         public AreaActionViewModel(DataViewModel? dataViewModel, ICommand? backCommand, object? updateObj = null) : base(backCommand, updateObj)
         {

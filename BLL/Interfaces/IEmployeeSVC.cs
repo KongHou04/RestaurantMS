@@ -13,8 +13,8 @@ namespace BLL.Interfaces
         public string Update(EmployeeDTO obj);
         public string Delete(int objID);
 
-        public List<EmployeeDTO> GetByName(string name);
-
+        public List<EmployeeDTO> GetAllEmployeesByName(string name);
+        public List<RoleDTO> GetAllRoles();
 
     }
 }

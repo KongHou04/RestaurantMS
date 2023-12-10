@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="Resources\admin.jpg" />
+    <None Remove="Resources\defaultuser.png" />
     <None Remove="Resources\login.jpg" />
     <None Remove="Resources\logo.png" />
   </ItemGroup>
@@ -26,6 +27,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\admin.jpg" />
+    <Resource Include="Resources\defaultuser.png" />
     <Resource Include="Resources\login.jpg" />
     <Resource Include="Resources\logo.png" />
   </ItemGroup>

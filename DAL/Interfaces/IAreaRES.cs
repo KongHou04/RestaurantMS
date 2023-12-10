@@ -8,6 +8,7 @@ namespace DAL.Interfaces
         public bool Update(Area obj);
         public bool Delete(Area obj);
         public List<Area> GetAll();
+        public List<Area> GetAllValid();
         public List<Area> GetByName(string name);
         public Area? GetByID(int id);
         public Area? CheckByName(string name);

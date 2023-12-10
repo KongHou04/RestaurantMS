@@ -56,7 +56,8 @@
                                    Style="{StaticResource TextStyle2}"
                                    VerticalAlignment="Center"
                                    Margin="10 0"/>
-                        <ComboBox Style="{StaticResource comboBoxInfoStyle1}"
+                        <ComboBox Style="{StaticResource ComboBoxFlatStyle}"
+                                  Width="200"
                                   HorizontalAlignment="Right"
                                   ItemsSource="{Binding DataViewModel.AreaFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   DisplayMemberPath="Name"
