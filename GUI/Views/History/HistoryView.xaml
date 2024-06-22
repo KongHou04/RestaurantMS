@@ -28,7 +28,7 @@
 
                     <!--Reset Button-->
                     <Button Style="{StaticResource ViewControlBtnStyle1}"
-                        Margin="0 0 10 0">
+                        Margin="0 0 10 0" Command="{Binding RefreshHistoryCommand}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="resetBtnTxt"
                                    Text="REFRESH"

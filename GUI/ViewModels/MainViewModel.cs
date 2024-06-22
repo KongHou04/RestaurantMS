@@ -148,7 +148,7 @@ namespace GUI.ViewModels
             get { return _employeeView; }
             set { _employeeView = value; OnPropertyChanged(nameof(EmployeeView)); }
         }
-        
+
 
 
         private UserControl? _orderTableView;
@@ -235,6 +235,7 @@ namespace GUI.ViewModels
         public ICommand? ShowHistoryViewCommand { get; set; }
         public ICommand? ShowAnalytisViewCommand { get; set; }
 
+        public ICommand? RefreshHistoryCommand { get; set; }
 
 
 
@@ -274,6 +275,8 @@ namespace GUI.ViewModels
             ShowHistoryAnalytisViewCommand = new RelayCommand(ExecuteShowHistoryAnalytisViewCommand);
             ShowHistoryViewCommand = new RelayCommand(ExecuteShowHistoryViewCommand);
             ShowAnalytisViewCommand = new RelayCommand(ExecuteShowAnalytisViewCommand);
+
+            RefreshHistoryCommand = new RelayCommand(ExcuteRefreshHistoryCommand);
 
             // Start Commands
             ShowValidTableViewCommand?.Execute(null);
@@ -411,6 +414,7 @@ namespace GUI.ViewModels
                 HistoryAnalytisView = new HistoryAnalytisView();
                 ShowHistoryViewCommand?.Execute(null);
             }
+            RefreshHistoryCommand?.Execute(null);
             ChildView = HistoryAnalytisView;
             TitleName = HistoryAnalytisView.TitleName;
             TitleIcon = HistoryAnalytisView.TitleIcon;
@@ -430,6 +434,10 @@ namespace GUI.ViewModels
             HistoryAnalytisChildView = AnalytisView;
         }
 
+        public void ExcuteRefreshHistoryCommand(object? obj)
+        {
+            DataViewModel?.RefreshDataCommand?.Execute(null);
+        }
 
 
         private void ExecuteLogOutCommand(object? obj)
