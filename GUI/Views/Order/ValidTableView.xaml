@@ -6,6 +6,11 @@
              xmlns:local="clr-namespace:GUI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+
+        <BooleanToVisibilityConverter x:Key="bollToVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <Grid Grid.Row="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -26,7 +31,7 @@
                 <!--Action Buttons-->
                 <StackPanel Orientation="Horizontal">
 
-                    <!--Reset Button-->
+                    <!--Reset Button--><!--
                     <Button Style="{StaticResource ViewControlBtnStyle1}"
                             Margin="0 0 10 0">
                         <StackPanel Orientation="Horizontal">
@@ -34,7 +39,7 @@
                                        Text="REFRESH"
                                        Style="{StaticResource ControlViewTxtStyle1}" FontFamily="Dosis"/>
                         </StackPanel>
-                    </Button>
+                    </Button>-->
 
 
 
@@ -57,9 +62,9 @@
                         <ComboBox Style="{StaticResource ComboBoxFlatStyle}"
                                   Width="200"
                                   HorizontalAlignment="Right"
-                                  ItemsSource="{Binding OrderDataViewModel.AreaFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  ItemsSource="{Binding DemoOrderDataViewModel.AreaFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   DisplayMemberPath="Name"
-                                  SelectedItem="{Binding OrderDataViewModel.SelectedAreaFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding DemoOrderDataViewModel.SelectedAreaFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   />
                     </StackPanel>
 
@@ -74,18 +79,18 @@
         <Grid Grid.Row="1"
               Margin="0 0 10 0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding OrderDataViewModel.Tables}"
+                <ItemsControl ItemsSource="{Binding DemoOrderDataViewModel.TableOrders}"
                               Margin="10"
                               ScrollViewer.CanContentScroll="True">
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Margin="0 10 0 20">
-                                <TextBlock Text="{Binding Key}" 
+                            <StackPanel Margin="0 0 0 30">
+                                <!--<TextBlock Text="{Binding Key}" 
                                            Margin="0 0 0 5"
                                            FontFamily="Roboto"
                                            FontWeight="Medium"
-                                           FontSize="20"/>
+                                           FontSize="20"/>-->
                                 <ItemsControl ItemsSource="{Binding}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -100,17 +105,30 @@
                                                         <RowDefinition Height="6*"/>
                                                         <RowDefinition Height="4*"/>
                                                     </Grid.RowDefinitions>
-                                                    <TextBlock Text="{Binding Name}"
-                                                                           FontFamily="Roboto"
-                                                                           FontSize="13"
-                                                                           MaxHeight="50"
-                                                                           FontWeight="SemiBold"
-                                                                           TextWrapping="Wrap"
-                                                                           TextTrimming="CharacterEllipsis"
-                                                                           TextAlignment="Center"
-                                                                           VerticalAlignment="Bottom"
-                                                                           HorizontalAlignment="Center"
-                                                                           Padding="5 0"/>
+                                                    <TextBlock Text="{Binding Table.Name}"
+                                                                FontFamily="Roboto"
+                                                                FontSize="13"
+                                                                MaxHeight="50"
+                                                                FontWeight="SemiBold"
+                                                                TextWrapping="Wrap"
+                                                                TextTrimming="CharacterEllipsis"
+                                                                TextAlignment="Center"
+                                                                VerticalAlignment="Bottom"
+                                                                HorizontalAlignment="Center"
+                                                                Padding="5 0"/>
+                                                    <TextBlock Text="{Binding Order.TotalAmount, StringFormat='{}{0:#,0}'}"
+                                                               Grid.Row="1"
+                                                               Visibility="{Binding Table.Status, Converter={StaticResource bollToVisibilityConverter}}"
+                                                                FontFamily="Roboto"
+                                                                FontSize="10"
+                                                                MaxHeight="50"
+                                                                FontWeight="SemiBold"
+                                                                TextWrapping="Wrap"
+                                                                TextTrimming="CharacterEllipsis"
+                                                                TextAlignment="Center"
+                                                                VerticalAlignment="Bottom"
+                                                                HorizontalAlignment="Center"
+                                                                Padding="5 0"/>
                                                 </Grid>
                                                 <Button.Style>
                                                     <Style TargetType="Button">
@@ -139,7 +157,7 @@
                                                                     </Setter.Value>
                                                                 </Setter>
                                                             </Trigger>
-                                                            <DataTrigger Binding="{Binding Status}" Value="True">
+                                                            <DataTrigger Binding="{Binding Table.Status}" Value="False">
                                                                 <Setter Property="Background">
                                                                     <Setter.Value>
                                                                         <SolidColorBrush Color="#00ff0a" Opacity="0.35"/>
@@ -147,7 +165,7 @@
                                                                     </Setter.Value>
                                                                 </Setter>
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Status}" Value="False">
+                                                            <DataTrigger Binding="{Binding Order.Status}" Value="True">
                                                                 <Setter Property="Background">
                                                                     <Setter.Value>
                                                                         <SolidColorBrush Color="#ff0000" Opacity="0.35"/>

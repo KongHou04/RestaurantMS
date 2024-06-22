@@ -15,8 +15,9 @@ namespace BLL.Interfaces
         public List<AreaDTO> GetAllValidAreas();
         //public object? GetOrderByTable(TableDTO obj);
 
-
-
+        public OrderDisplayDTO? GetOrderDisplay(TableDTO? obj); 
+        public string UpdateOrderByOrderDisPlay(OrderDisplayDTO? obj);
+        public string PayOrder(OrderDisplayDTO? orderDisplayDTO);
 
     }
 }

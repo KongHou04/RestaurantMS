@@ -134,6 +134,7 @@
                         </RadioButton>
 
                         <RadioButton x:Name="rdBtnHistory"
+                                     Command="{Binding ShowHistoryAnalytisViewCommand}"
                                      Style="{StaticResource MenuTitleBtnStyle1}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="ClockRotateLeft"

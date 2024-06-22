@@ -23,6 +23,7 @@ namespace GUI.ViewModels
         private IProductSVC? _productSVC { get; }
         private IEmployeeSVC? _employeeSVC { get; }
         private ISelfUserSVC? _selfUserSVC { get; }
+        private IHistorySVC? _historySVC { get; }
         #endregion
 
 
@@ -182,6 +183,26 @@ namespace GUI.ViewModels
 
         #endregion
 
+        #region History
+        private ObservableCollection<BillDTO>? _bills;
+        public ObservableCollection<BillDTO>? Bills
+        {
+            get { return _bills; }
+            set { _bills = value; OnPropertyChanged(nameof(Bills)); }
+        }
+
+        private DateTime _selectedDate;
+        public DateTime SelectedDate
+        {
+            get { return _selectedDate; }
+            set 
+            { 
+                _selectedDate = value; OnPropertyChanged(nameof(SelectedDate));
+                UpdateHistoryList();
+            }
+        }
+        #endregion
+
         #endregion
 
 
@@ -208,6 +229,7 @@ namespace GUI.ViewModels
         #region Constructor
         public DataViewModel(ServiceProvider services)
         {
+            _selectedDate = DateTime.Now;
             _areaSearchTerm = string.Empty;
             _categorySearchTerm= string.Empty;
             _productSearchTerm= string.Empty;
@@ -219,6 +241,7 @@ namespace GUI.ViewModels
             _productSVC = services.GetService<IProductSVC>();
             _employeeSVC = services.GetService<IEmployeeSVC>();
             _selfUserSVC = services.GetService<ISelfUserSVC>();
+            _historySVC = services.GetService<IHistorySVC>();
 
 
             // Sets Commands
@@ -269,6 +292,8 @@ namespace GUI.ViewModels
 
             UpdateEmployeesList();
             UpdateRoleFilterToEditList();
+
+            UpdateHistoryList();
         }
 
 
@@ -346,6 +371,11 @@ namespace GUI.ViewModels
         {
             if (_employeeSVC != null)
                 RoleFilterToEdit = new ObservableCollection<RoleDTO>(_employeeSVC.GetAllRoles());
+        }
+        private void UpdateHistoryList()
+        {
+            if (_historySVC == null) return;
+            Bills = new ObservableCollection<BillDTO>(_historySVC.GetAllHistoryByDate(SelectedDate));
         }
 
 

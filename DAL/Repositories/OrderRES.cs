@@ -33,6 +33,32 @@ namespace DAL.Interfaces
             }
         }
 
+        public Order? AddnReturn(Order obj)
+        {
+            Order order = new Order();
+            try
+            {
+                order.OrderTime = obj.OrderTime.ToUniversalTime();
+                order.Incedentals = obj.Incedentals;
+                order.Discount = obj.Discount;
+                order.Status = true;
+                order.PaymentStatus = false;
+                order.Description = obj.Description;
+                order.TableID = obj.TableID;
+                order.EmployeeID = obj.EmployeeID;
+                order.TotalAmount = obj.TotalAmount;
+                order.GrandTotal = obj.GrandTotal;
+                _context.Orders.Add(order);
+                _context.SaveChanges();
+                return order;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
         public bool Delete(Order obj)
         {
             var deleteObj = GetByID(obj.OrderID);

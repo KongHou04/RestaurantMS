@@ -17,27 +17,27 @@ using System.Windows.Shapes;
 namespace GUI.Views
 {
     /// <summary>
-    /// Interaction logic for OrderView.xaml
+    /// Interaction logic for HistoryView.xaml
     /// </summary>
-    public partial class OrderView : UserControl
+    public partial class HistoryView : UserControl
     {
-        public OrderView()
+        public HistoryView()
         {
             InitializeComponent();
         }
-        private void txtSearch_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            txtBoxSearch.Focus();
+        //private void txtSearch_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    txtBoxSearch.Focus();
+        //}
 
-        }
+        //private void txtBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (!String.IsNullOrEmpty(txtBoxSearch.Text))
+        //        txtSearch.Visibility = Visibility.Collapsed;
+        //    else txtSearch.Visibility = Visibility.Visible;
+        //}
 
-        private void txtBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!String.IsNullOrEmpty(txtBoxSearch.Text))
-                txtSearch.Visibility = Visibility.Collapsed;
-            else txtSearch.Visibility = Visibility.Visible;
-        }
-        private void dataGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        private void DataGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             // Get right clicked row
             DependencyObject? dpObj = e.OriginalSource as DependencyObject; /*Copied - This one is crazy*/
@@ -51,12 +51,11 @@ namespace GUI.Views
             DataGridRow? selectedRow = Finder.FindAncestor<DataGridRow>(dpObj);
             if (selectedRow != null)
             {
-                dataGrid.ContextMenu.Visibility = Visibility.Visible;
                 dataGrid.ContextMenu.IsOpen = false;
+                dataGrid.ContextMenu.Visibility = Visibility.Visible;
             }
             else
                 dataGrid.ContextMenu.Visibility = Visibility.Collapsed;
         }
-
     }
 }

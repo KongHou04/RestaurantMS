@@ -5,6 +5,7 @@ namespace DAL.Interfaces
     public interface IOrderRES
     {
         public bool Add(Order obj);
+        public Order? AddnReturn(Order obj);
         public bool Update(Order obj);
         public bool Delete(Order obj);
         public List<Order> GetAll();

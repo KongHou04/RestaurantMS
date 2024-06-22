@@ -29,13 +29,12 @@ namespace BLL.Services
 
         public string Add(EmployeeDTO obj)
         {
+            string? msg = CheckInputData.CheckValidInpurtForEmployeeDTO(obj);
+            if (msg != null)
+                return msg;
             if (obj.FullName == null || obj.UserName == null)
                 return "Name/Username cannot be empty";
-            if (obj.FullName.Length == 0 || obj.UserName.Length == 0)
-                return "Name/Username cannot be empty";
             if (obj.Email == null || obj.Phone == null)
-                return "Email/Phone cannot be empty";
-            if (obj.Email.Length == 0 || obj.Phone.Length == 0)
                 return "Email/Phone cannot be empty";
             if (_employeeRES.GetByEmail(obj.Email) != null)
                 return "Email already exist";
@@ -110,25 +109,16 @@ namespace BLL.Services
 
         public string Update(EmployeeDTO obj)
         {
-            if (obj.FullName == null)
-                return "Name cannot be empty";
-            if (obj.FullName.Length == 0)
-                return "Name cannot be empty";
+            string? msg = CheckInputData.CheckValidInpurtForEmployeeDTO(obj);
+            if (msg != null) return msg;
+
             var updateObj = _employeeRES.GetByID(obj.ID);
             if (updateObj == null)
                 return "Employee does not exist!";
             var updateAcc = _accountRES.GetByEmpID(obj.ID);
-            //if (obj.UserName == null)
-            //    return "Username cannot be empty";
-            //if (obj.UserName.Length == 0)
-            //    return "Username cannot be empty";
             if (obj.Email == null)
                 return "Email cannot be empty";
-            if (obj.Email.Length == 0)
-                return "Email cannot be empty";
             if (obj.Phone == null)
-                return "Phone cannot be empty";
-            if (obj.Phone.Length == 0)
                 return "Phone cannot be empty";
             if (obj.Email != updateObj.Email && _employeeRES.GetByEmail(obj.Email) != null)
                 return "Mail already used";

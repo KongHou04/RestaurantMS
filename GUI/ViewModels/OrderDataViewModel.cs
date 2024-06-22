@@ -26,12 +26,16 @@ namespace GUI.ViewModels
             set { _tables = value; OnPropertyChanged(nameof(Tables)); }
         }
 
+
+
         private ObservableCollection<AreaDTO>? _areaFilter;
         public ObservableCollection<AreaDTO>? AreaFilter
         {
             get { return _areaFilter; }
             set { _areaFilter = value; OnPropertyChanged(nameof(AreaFilter)); }
         }
+
+
 
         private AreaDTO? _selectedAreaFilter;
         public AreaDTO? SelectedAreaFilter
@@ -96,6 +100,12 @@ namespace GUI.ViewModels
             Tables = new ObservableCollection<IGrouping<string?, TableDTO>>(t.GroupBy(o => o.AreaName));
         }
         
+        public OrderDisplayDTO? GetOrderDisplayDTO(TableDTO? table)
+        {
+            if (_orderSVC != null)
+                return _orderSVC.GetOrderDisplay(table);
+            return null;
+        }
 
 
 

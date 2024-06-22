@@ -13,6 +13,29 @@ namespace DAL.Interfaces
             throw new NotImplementedException();
         }
 
+        public bool AddByOrderID(int objID)
+        {
+            var o = _context.Orders.FirstOrDefault(od => od.OrderID == objID);
+            if (o == null) return false;
+            var bill = new Bill()
+            {
+                CreateTime = DateTime.Now.ToUniversalTime(),
+                GrandTotal = o.TotalAmount,
+                OrderID = o.OrderID,
+            };
+            try
+            {
+                _context.Bills.Add(bill);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
         public bool Delete(Bill entity)
         {
             throw new NotImplementedException();
@@ -25,7 +48,10 @@ namespace DAL.Interfaces
 
         public List<Bill> GetByDate(DateTime date)
         {
-            throw new NotImplementedException();
+
+            // Bugs
+            //return _context.Bills.Where(b => b.CreateTime.Date == date.ToUniversalTime()).ToList();
+            return _context.Bills.ToList();
         }
 
         public Bill GetByID(int id)

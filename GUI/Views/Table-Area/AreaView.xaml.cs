@@ -1,4 +1,5 @@
-﻿using GUI.Helpers;
+﻿using DTO;
+using GUI.Helpers;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -48,6 +49,16 @@ namespace GUI.Views
             else
                 dataGrid.ContextMenu.Visibility = Visibility.Collapsed;
         }
+
+        public string? IsValidObj(EmployeeDTO? obj)
+        {
+            if (obj == null) return "Doi tuong null";
+            if (obj.UserName == null) return "Name trong";
+            if (obj.UserName.Length == 0) return "Name trong";
+            if (obj.Email == null) return "Email trong";
+            return null;
+        }
+
 
         //private void EditMenuItem_Click(object sender, RoutedEventArgs e)
         //{

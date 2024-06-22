@@ -70,6 +70,14 @@ namespace GUI.ViewModels
                 UpdateObj = (T)updateObj;
             BackCommand = backCommand;
         }
+        public ActionViewModel(ICommand? backCommand)
+        {
+            BackCommand = backCommand;
+        }
+
+        public ActionViewModel() { }
+
+
         protected void SetCommands(Action<object?> clearFunc, Action<object?> setDefaultFunc)
         {
             ClearCommand = new RelayCommand(clearFunc);

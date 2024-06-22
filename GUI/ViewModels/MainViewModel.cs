@@ -30,6 +30,17 @@ namespace GUI.ViewModels
             set { _orderDataViewModel = value; OnPropertyChanged(nameof(OrderDataViewModel)); }
         }
 
+        private DemoOrderDataViewModel? _demoOrderDataViewModel;
+
+        public DemoOrderDataViewModel? DemoOrderDataViewModel
+        {
+            get => _demoOrderDataViewModel;
+            set
+            {
+                _demoOrderDataViewModel = value;
+                OnPropertyChanged(nameof(DemoOrderDataViewModel));
+            }
+        }
 
 
         private string _titleName = string.Empty;
@@ -163,6 +174,36 @@ namespace GUI.ViewModels
 
 
 
+        private HistoryAnalytisView? _historyAnalytisView;
+        public HistoryAnalytisView? HistoryAnalytisView
+        {
+            get { return _historyAnalytisView; }
+            set { _historyAnalytisView = value; OnPropertyChanged(nameof(HistoryAnalytisView)); }
+        }
+
+        private UserControl? _historyAnalytisChildView;
+        public UserControl? HistoryAnalytisChildView
+        {
+            get { return _historyAnalytisChildView; }
+            set { _historyAnalytisChildView = value; OnPropertyChanged(nameof(HistoryAnalytisChildView)); }
+        }
+
+        private HistoryView? _historyView;
+        public HistoryView? HistoryView
+        {
+            get { return _historyView; }
+            set { _historyView = value; OnPropertyChanged(nameof(HistoryView)); }
+        }
+
+        private AnalytisView? _analytisView;
+        public AnalytisView? AnalytisView
+        {
+            get { return _analytisView; }
+            set { _analytisView = value; OnPropertyChanged(nameof(AnalytisView)); }
+        }
+
+
+
 
         // Commands
         public ICommand? LogOutCommand { get; set; }
@@ -190,6 +231,13 @@ namespace GUI.ViewModels
         public ICommand? ShowOrderViewCommand { get; set; }
 
 
+        public ICommand? ShowHistoryAnalytisViewCommand { get; set; }
+        public ICommand? ShowHistoryViewCommand { get; set; }
+        public ICommand? ShowAnalytisViewCommand { get; set; }
+
+
+
+
         // Constructors
         public MainViewModel()
         {
@@ -199,6 +247,7 @@ namespace GUI.ViewModels
             if (svc == null) return;
             DataViewModel = new DataViewModel(svc);
             OrderDataViewModel = new OrderDataViewModel(svc);
+            DemoOrderDataViewModel = new DemoOrderDataViewModel(svc);
             DataViewModel.CurrentUser = UserSection.Instance;
 
 
@@ -219,13 +268,17 @@ namespace GUI.ViewModels
             ShowEmployeeViewCommand = new RelayCommand(ExecuteShowEmployeeViewCommand);
             ShowEmployeeInfoFormViewCommand = new RelayCommand(ExecuteShowEmployeeInfoFormViewCommand);
 
-            //ShowOrderTableViewCommand = new RelayCommand(ExecuteShowOrderTableViewCommand);
             ShowValidTableViewCommand = new RelayCommand(ExecuteShowValidTableViewCommand);
             ShowOrderViewCommand = new RelayCommand(ExecuteShowOrderViewCommand);
+
+            ShowHistoryAnalytisViewCommand = new RelayCommand(ExecuteShowHistoryAnalytisViewCommand);
+            ShowHistoryViewCommand = new RelayCommand(ExecuteShowHistoryViewCommand);
+            ShowAnalytisViewCommand = new RelayCommand(ExecuteShowAnalytisViewCommand);
 
             // Start Commands
             ShowValidTableViewCommand?.Execute(null);
         }
+
 
 
         private void ExecuteShowTableAreaViewCommand(object? obj)
@@ -332,18 +385,6 @@ namespace GUI.ViewModels
         }
 
 
-        //private void ExecuteShowOrderTableViewCommand(object? obj)
-        //{
-        //    if (OrderTableView == null)
-        //    {
-        //        OrderTableView = new UserControl();
-        //        ShowValidTableViewCommand?.Execute(null);
-        //    }
-        //    ChildView = OrderTableView;
-        //    TitleName = "Order";
-        //    TitleIcon = IconChar.ShoppingCart;
-        //}
-
         private void ExecuteShowValidTableViewCommand(object? obj)
         {
             if (ValidTableView == null)
@@ -352,18 +393,42 @@ namespace GUI.ViewModels
             TitleName = "Order";
             TitleIcon = IconChar.ShoppingCart;
         }
-
         private void ExecuteShowOrderViewCommand(object? obj)
         {
-            if (OrderView == null)
-                OrderView = new OrderView();
+            //var o = obj as OrderDisplayDTO;
+            OrderView = new OrderView();
+            OrderView.DataContext = new OrderActionViewModel(DemoOrderDataViewModel, ShowValidTableViewCommand, obj);
             ChildView = OrderView;
             TitleName = "Order";
             TitleIcon = IconChar.ShoppingCart;
         }
 
 
+        private void ExecuteShowHistoryAnalytisViewCommand(object? obj)
+        {
+            if (HistoryAnalytisView == null)
+            {
+                HistoryAnalytisView = new HistoryAnalytisView();
+                ShowHistoryViewCommand?.Execute(null);
+            }
+            ChildView = HistoryAnalytisView;
+            TitleName = HistoryAnalytisView.TitleName;
+            TitleIcon = HistoryAnalytisView.TitleIcon;
+        }
 
+        private void ExecuteShowHistoryViewCommand(object? obj)
+        {
+            if (DataViewModel == null) return;
+            if (HistoryView == null) HistoryView = new HistoryView();
+            HistoryAnalytisChildView = HistoryView;
+        }
+
+        private void ExecuteShowAnalytisViewCommand(object? obj)
+        {
+            if (DataViewModel == null) return;
+            if (AnalytisView == null) AnalytisView = new AnalytisView();
+            HistoryAnalytisChildView = AnalytisView;
+        }
 
 
 

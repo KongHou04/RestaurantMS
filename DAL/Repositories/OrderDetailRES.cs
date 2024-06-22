@@ -17,13 +17,13 @@ namespace DAL.Interfaces
                 orderDetail.Description = obj.Description;
                 orderDetail.OrderID = obj.OrderID;
                 orderDetail.ProductID = obj.ProductID;
-                var pro = _context.Products.ToList().FirstOrDefault(p => p.ProductID == obj.ProductID);
+                var pro = _context.Products.FirstOrDefault(p => p.ProductID == obj.ProductID);
                 if (pro == null)
                     throw new Exception("Product does not exist");
                 orderDetail.Price = pro.UnitPrice;
                 orderDetail.ProductName = pro.Name;
-                if (orderDetail.OrderID != null)
-                    UpdateTotalAmount((int)orderDetail.OrderID);
+                //if (orderDetail.OrderID != null)
+                //    UpdateTotalAmount((int)orderDetail.OrderID);
                 _context.Add(orderDetail);
                 _context.SaveChanges();
                 return true;
@@ -77,7 +77,7 @@ namespace DAL.Interfaces
                 updateObj.ProductID = obj.ProductID;
                 if (updateObj.ProductID != obj.ProductID)
                 {
-                    var pro = _context.Products.ToList().FirstOrDefault(p => p.ProductID == obj.ProductID);
+                    var pro = _context.Products.FirstOrDefault(p => p.ProductID == obj.ProductID);
                     if (pro == null)
                         throw new Exception("Product does not exist");
                     updateObj.Price = pro.UnitPrice;

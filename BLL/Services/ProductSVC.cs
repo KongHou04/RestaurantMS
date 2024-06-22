@@ -19,10 +19,9 @@ namespace BLL.Services
 
         public string Add(ProductDTO obj)
         {
-            
+            string? msg = CheckInputData.CheckValidInpurtForProductDTO(obj);
+            if (msg != null) return msg;
             if (obj.Name == null)
-                return "Name cannot be empty";
-            if (obj.Name.Length == 0)
                 return "Name cannot be empty";
             if (_productRES.CheckByName(obj.Name.Trim()) != null)
                 return "Product Name already exist";
@@ -163,9 +162,9 @@ namespace BLL.Services
 
         public string Update(ProductDTO obj)
         {
+            string? msg = CheckInputData.CheckValidInpurtForProductDTO(obj);
+            if (msg != null) return msg;
             if (obj.Name == null)
-                return "Name cannot be empty";
-            if (obj.Name.Length == 0)
                 return "Name cannot be empty";
             var entity = _productRES.GetByID(obj.ID);
             if (entity == null)
@@ -188,5 +187,28 @@ namespace BLL.Services
                 return "Cannot delete or update the Product";
         }
 
+        public List<ProductDTO> GetAllValid()
+        {
+            List<ProductDTO> entityList = new List<ProductDTO>();
+            var list1 = _productRES.GetAll();
+            var list2 = _categoryRES.GetAll().Where(c => c.Status == true);
+
+            var list = (from p in list1
+                        join c in list2
+                        on p.CategoryID equals c.CategoryID
+                        select new ProductDTO()
+                        {
+                            ID = p.ProductID,
+                            Name = p.Name?.Trim(),
+                            Status = p.Status,
+                            UnitPrice = p.UnitPrice,
+                            Image = _imageHandler.GetImageDirecory(p.Image),
+                            Description = p.Description,
+                            CategoryName = c.Name,
+                            CategoryID = c.CategoryID,
+                        }).ToList();
+
+            return list == null ? new List<ProductDTO>() : list;
+        }
     }
 }

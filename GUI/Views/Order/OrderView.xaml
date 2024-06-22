@@ -10,7 +10,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -41,7 +42,7 @@
                                        />
 
                             <TextBox x:Name="txtBoxSearch"
-                                         Text="{Binding DataViewModel.ProductSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Text="{Binding DemoOrderDataViewModel.ProductSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextChanged="txtBoxSearch_TextChanged"
                                          Style="{StaticResource InputTxtBoxStyle1}"
                                          />
@@ -56,8 +57,8 @@
                               BorderBrush="{StaticResource color10}"
                               Foreground="{StaticResource color11}"
                               Cursor="Hand" Margin="20 0"
-                              ItemsSource="{Binding DataViewModel.CategoryFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedItem="{Binding DataViewModel.SelectedCategoryFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding DemoOrderDataViewModel.CategoryFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding DemoOrderDataViewModel.SelectedCategoryFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name"
                               />
                     <!--Action Buttons-->
@@ -84,9 +85,10 @@
 
             <!--Data Region-->
             <Grid Grid.Row="1"
+                  Background="Transparent"
               Margin="0 0 10 0">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <ItemsControl ItemsSource="{Binding DataViewModel.Products}"
+                    <ItemsControl ItemsSource="{Binding DemoOrderDataViewModel.GroupedProducts}"
                               Margin="10"
                               ScrollViewer.CanContentScroll="True">
 
@@ -102,10 +104,10 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
 
-                                                <Button Width="100" Height="100" Margin="0 10 12 10" VerticalAlignment="Bottom"
+                                                <Button Width="100" Height="100" Margin="0 10 5 10" VerticalAlignment="Bottom"
                                                     CommandParameter="{Binding}">
                                                     <Button.Command>
-                                                        <Binding Path="DataContext.ShowProductInfoFormViewCommand" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
+                                                        <Binding Path="DataContext.AddProductCommand" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
                                                     </Button.Command>
                                                     <Grid>
                                                         <Grid.RowDefinitions>
@@ -199,17 +201,33 @@
 
         </Grid>
 
-        <StackPanel Grid.Column="1"
-                      Background="{StaticResource color7}">
+        <Grid Grid.Column="1"
+                Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal"
-                        Height="60"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Grid.Row="0">
                 <fa:IconImage Icon="ShoppingBag"
                               Style="{StaticResource IconStyle1}"
                               Foreground="{StaticResource color2}"
                               Height="20"
-                              Width="20"/>
+                              Width="20"
+                              Margin="20 0 5 0 "/>
+                <TextBlock Text="ORDER "
+                           Style="{StaticResource HeaderTxtStyle1}"
+                           Margin="0"
+                           FontSize="20"
+                           FontFamily="Roboto"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource color2}"/>
                 <TextBlock Text="35740"
                            Style="{StaticResource HeaderTxtStyle1}"
                            Margin="0"
@@ -218,125 +236,191 @@
                            FontWeight="Bold"
                            Foreground="{StaticResource color2}"/>
             </StackPanel>
-            <StackPanel Margin="0 0 0 15">
+            <StackPanel Grid.Row="1"
+                        VerticalAlignment="Center">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="CreateTime :"
                                Grid.Column="1"
                                Style="{StaticResource TextStyle4}"/>
-                    <TextBlock Text="02-05-2004"
+                    <TextBlock Text="{Binding OrderDisplay.Order.OrderTime}"
+                               TextTrimming="CharacterEllipsis"
                                Grid.Column="2"/>
                 </Grid>
                 <Grid Margin="0 10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Customer :"
+                    <TextBlock Text="Table :"
                                Style="{StaticResource TextStyle4}"
                                Grid.Column="1"/>
-                    <TextBlock Text="Guest-01323"
+                    <TextBlock Text="{Binding OrderDisplay.Table.Name}"
                                Grid.Column="2"/>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Employee :"
-                               Style="{StaticResource TextStyle4}"
-                               Grid.Column="1"/>
-                    <TextBlock Text="konghou"
+                    <TextBlock Text="Total Amount :"
+                               Grid.Column="1"
+                               Style="{StaticResource TextStyle4}"/>
+                    <TextBlock Text="{Binding OrderDisplay.Order.TotalAmount, StringFormat='{}{0:#,0}'}"
                                Grid.Column="2"/>
                 </Grid>
             </StackPanel>
             <DataGrid x:Name="dataGrid"
-                      Grid.Row="0"
+                      Background="{StaticResource color6}"
+                      Grid.Row="2"
                       Style="{DynamicResource DataGridStyle1}"
                       CellStyle="{DynamicResource DataGridCellStyle2}"
                       ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}"
                       RowStyle="{DynamicResource DataGridRowStyle1}"
                       BorderThickness="0"
-                      Margin="10 0"
+                      Margin="10 10"
                       FontFamily="Roboto"
                       ContextMenuOpening="dataGrid_ContextMenuOpening"
-                      ItemsSource="{Binding DataViewModel.Areas}"
-                      SelectedItem="{Binding SelectedArea}"
-                      >
+                      ItemsSource="{Binding OrderDisplay.ODList}">
                 <DataGrid.Resources>
                     <Style TargetType="ScrollBar" BasedOn="{StaticResource ScrollBarStyle1}"/>
                 </DataGrid.Resources>
-
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <!-- Các MenuItem trong ContextMenu -->
-                        <MenuItem Header="Edit Information" 
-                                  Command="{Binding ShowAreaInfoFormViewCommand}"
-                                  CommandParameter="{Binding SelectedArea}"/>
-                        <MenuItem Header="Add 25 Tables"
-                                  Command="{Binding DataViewModel.AddTablesCommand}"
-                                  CommandParameter="{Binding SelectedArea}"/>
-                        <MenuItem Header="Remove 25 Tables"
-                                  Command="{Binding DataViewModel.DeleteTablesCommand}"
-                                  CommandParameter="{Binding SelectedArea}"/>
-                        <MenuItem Header="Activate / DeActivate"
-                                  Command="{Binding DataViewModel.UpdateAreaStatusCommand}"
-                                  CommandParameter="{Binding SelectedArea}"/>
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-
-
                 <DataGrid.Columns>
 
                     <!--Name Column-->
                     <DataGridTextColumn Header="Name" 
                                         CanUserResize="False" 
                                         IsReadOnly="True" 
-                                        Width="4*"
-                                        Binding="{Binding Name}">
+                                        Width="11*"
+                                        Binding="{Binding ProductName}">
+                        <DataGridTextColumn.CellStyle>
+                            <StaticResource ResourceKey="DataGridCellStyle1"/>
+                        </DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn.HeaderStyle>
+                            <StaticResource ResourceKey="DataGridColumnHeaderStyle1"/>
+                        </DataGridTextColumn.HeaderStyle>
                     </DataGridTextColumn>
 
-                    <!--Order Status Column-->
-                    <DataGridTemplateColumn Header="Status" 
-                                            CanUserResize="False" 
-                                            IsReadOnly="True" 
-                                            Width="1">
+                    <!--Price Column-->
+                    <DataGridTextColumn 
+                                        CanUserResize="False" 
+                                        IsReadOnly="True" 
+                                        Width="5*"
+                                        Binding="{Binding UnitPrice}">
+                        <DataGridTextColumn.CellStyle>
+                            <StaticResource ResourceKey="DataGridCellStyle2"/>
+                        </DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn.HeaderStyle>
+                            <StaticResource ResourceKey="DataGridColumnHeaderStyle1"/>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
 
+                    <!--Remove Column-->
+                    <DataGridTemplateColumn CanUserResize="False" 
+                                            IsReadOnly="True" 
+                                            Width="*">
+                        
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-
-                                <StackPanel Orientation="Horizontal" 
-                                            VerticalAlignment="Center"
-                                            Margin="12 0 0 0">
-
-                                    <Border Background="{Binding Tag, RelativeSource={RelativeSource Self}}"
-                                            Style="{StaticResource StatusShapeBorderStyle1}">
-                                    </Border>
-
-                                    <TextBlock Text="{Binding Tag, RelativeSource={RelativeSource Self}}"
-                                               Style="{StaticResource StatusTextBlockStyle1}">
-                                    </TextBlock>
-
-                                </StackPanel>
-
+                                <Button Command="{Binding DataContext.SubtractQuantityCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        CommandParameter="{Binding }">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate>
+                                                        <Border Background="Transparent"
+                                                                BorderThickness="0">
+                                                            <TextBlock Text="-"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
                             </DataTemplate>
-
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    
+                    <!--Quantity Collumn-->
+                    <DataGridTextColumn CanUserResize="False" 
+                                        IsReadOnly="True" 
+                                        Width="1.3*"
+                                        Binding="{Binding Quantity}">
+                    </DataGridTextColumn>
+                    
+                    <!--Add Column-->
+                    <DataGridTemplateColumn CanUserResize="False" 
+                                            IsReadOnly="True" 
+                                            Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.AddQuantityCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                         CommandParameter="{Binding }">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate>
+                                                        <Border Background="Transparent"
+                                                                BorderThickness="0">
+                                                            <TextBlock Text="+"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
                 </DataGrid.Columns>
             </DataGrid>
-
-
-        </StackPanel>
+            <StackPanel Grid.Row="3"
+                    Margin="10 0"
+                        VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource TextStyle4}"
+                           FontSize="13"
+                        Text="Description"
+                           Margin="10 0"
+                           Padding="0"/>
+                <Border Style="{StaticResource BorderStyle2}"
+                        Margin="0"
+                        Height="50">
+                    <TextBox Style="{StaticResource TextBoxStyle2}"
+                         VerticalContentAlignment="Top"
+                         Padding="0 5"
+                         TextWrapping="Wrap"
+                         Text="{Binding OrderDisplay.Order.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Border>
+            </StackPanel>
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding PayOrderCommand}"
+                        Grid.Column="1"
+                        Height="30"
+                        Style="{StaticResource ViewControlBtnStyle1}"
+                        Width="80">
+                    <TextBlock Text="PAY"
+                                Style="{StaticResource ControlViewTxtStyle1}" FontFamily="Dosis"/>
+                </Button>
+            </Grid>
+        </Grid>
 
 
     </Grid>

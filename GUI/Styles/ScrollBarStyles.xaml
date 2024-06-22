@@ -63,4 +63,46 @@
     --><!--</Style>-->
 
 
+    <Style x:Key="SlimThumbStyle2" TargetType="{x:Type Thumb}">
+        <Setter Property="Background" Value="{StaticResource color15}"/>
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="3"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ScrollBarStyle2" TargetType="ScrollBar">
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid Width="{TemplateBinding Width}" Background="{TemplateBinding Background}">
+                        <Border CornerRadius="3" Background="{StaticResource color16}"/>
+                        <RepeatButton x:Name="PART_LineUpButton_2" Command="ScrollBar.LineUpCommand" Content="&#x25B2;" FontSize="6" Opacity="0" VerticalAlignment="Top"/>
+                        <RepeatButton x:Name="PART_LineDownButton_2" Command="ScrollBar.LineDownCommand" Content="&#x25BC;" FontSize="6" Opacity="0" VerticalAlignment="Bottom"/>
+                        <Track x:Name="PART_Track_2">
+                            <Track.IsDirectionReversed>True</Track.IsDirectionReversed>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource SlimThumbStyle2}">
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
 </ResourceDictionary>

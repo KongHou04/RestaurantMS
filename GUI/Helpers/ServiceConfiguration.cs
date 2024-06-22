@@ -56,6 +56,11 @@ namespace RM_Project1.Helpers
                     return new ImageHandlerSVC(@"C:\Users\Admin\Desktop", @"C:\Users\Admin\Desktop");
             });
 
+            serviceCollection.AddDbContext<RMContext>(b =>
+            {
+                b.UseNpgsql(connString);
+            });
+
             serviceCollection.AddSingleton<IAreaRES, AreaRES>();
             serviceCollection.AddSingleton<ITableRES, TableRES>();
             serviceCollection.AddSingleton<ICategoryRES, CategoryRES>();
@@ -65,18 +70,15 @@ namespace RM_Project1.Helpers
             serviceCollection.AddSingleton<IRoleRES, RoleRES>();
             serviceCollection.AddSingleton<IOrderRES, OrderRES>();
             serviceCollection.AddSingleton<IOrderDetailRES, OrderDetailRES>();
+            serviceCollection.AddSingleton<IBillRES, BillRES>();
 
-            serviceCollection.AddDbContext<RMContext>(b =>
-            {
-                b.UseNpgsql(connString);
-            });
             serviceCollection.AddSingleton<IAreaSVC, AreaSVC>();
             serviceCollection.AddSingleton<ICategorySVC, CategorySVC>();
             serviceCollection.AddSingleton<IProductSVC, ProductSVC>();
             serviceCollection.AddSingleton<IEmployeeSVC, EmployeeSVC>();
             serviceCollection.AddSingleton<ISelfUserSVC, SelfUserSVC>();
             serviceCollection.AddSingleton<IOrderSVC, OrderSVC>();
-
+            serviceCollection.AddSingleton<IHistorySVC, HistorySVC>();
 
             return serviceCollection.BuildServiceProvider();
         }

@@ -5,6 +5,7 @@ namespace DAL.Interfaces
     public interface IBillRES
     {
         public bool Add(Bill obj);
+        public bool AddByOrderID(int objID);
         public bool Update(Bill obj);
         public bool Delete(Bill obj);
         public List<Bill> GetAll();
